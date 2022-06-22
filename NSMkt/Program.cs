@@ -15,7 +15,6 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddDefaultTokenProviders();
 
 
-
 // Add services to the container.
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -26,7 +25,31 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 //    .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
+
+
+
+
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+    try
+    {
+        var context = services.GetRequiredService<ApplicationDbContext>();
+        var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+        await ContextSeed.SeedRolesAsync(userManager, roleManager);
+        await ContextSeed.SeedSuperAdminAsync(userManager, roleManager);
+    }
+    catch (Exception ex)
+    {
+        var logger = loggerFactory.CreateLogger<Program>();
+        logger.LogError(ex, "An error occurred seeding the DB.");
+    }
+}
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

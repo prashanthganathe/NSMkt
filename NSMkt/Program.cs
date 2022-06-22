@@ -1,3 +1,5 @@
+using Hangfire;
+using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NSMkt.Data;
@@ -6,6 +8,8 @@ using NSMkt.Models;
 var builder = WebApplication.CreateBuilder(args);
 //var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var HFconnectionString = builder.Configuration.GetConnectionString("HangfireConnection");
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));;
 
@@ -26,10 +30,23 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddControllersWithViews();
 
 
+builder.Services.AddHangfire(configuration=>configuration
+            .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+            .UseSimpleAssemblyNameTypeSerializer()
+            .UseRecommendedSerializerSettings()
+            .UseSqlServerStorage(HFconnectionString, new SqlServerStorageOptions
+            {
+                 CommandBatchMaxTimeout =TimeSpan.FromMinutes(5),
+                 SlidingInvisibilityTimeout=TimeSpan.FromMinutes(5),
+                 QueuePollInterval=TimeSpan.Zero,
+                 DisableGlobalLocks=true
+            }));
 
-
+builder.Services.AddHangfireServer();
 
 var app = builder.Build();
+
+app.UseHangfireDashboard();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -75,6 +92,11 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.UseEndpoints(endpoints => { 
+    endpoints.MapControllers();
+    endpoints.MapHangfireDashboard();
+});
 app.MapRazorPages();
 
 app.Run();

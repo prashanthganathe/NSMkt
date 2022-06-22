@@ -2,6 +2,7 @@
 
 namespace NSMkt.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
@@ -48,7 +49,7 @@ namespace NSMkt.Controllers
             }
             ViewBag.UserName = user.UserName;
             var model = new List<ManageUserRolesViewModel>();
-            foreach (var role in _roleManager.Roles)
+            foreach (var role in _roleManager.Roles.ToList())
             {
                 var userRolesViewModel = new ManageUserRolesViewModel
                 {
@@ -67,6 +68,8 @@ namespace NSMkt.Controllers
             }
             return View(model);
         }
+
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
         public async Task<IActionResult> Manage(List<ManageUserRolesViewModel> model, string userId)
         {

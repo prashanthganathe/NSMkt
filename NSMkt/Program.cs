@@ -2,6 +2,7 @@ using Hangfire;
 using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using NSMkt.Data;
 using NSMkt.Models;
 
@@ -43,6 +44,28 @@ builder.Services.AddHangfire(configuration=>configuration
             }));
 
 builder.Services.AddHangfireServer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "NSMKT API",
+        Description = "An NSE Mkt API data ",
+        TermsOfService = new Uri("https://NSMKT.com/terms"),
+        Contact = new OpenApiContact
+        {
+            Name = "NSMKT Contact",
+            Url = new Uri("https://NSMKT.com/contact")
+        },
+        License = new OpenApiLicense
+        {
+            Name = "NSMKT License",
+            Url = new Uri("https://NSMKT.com/license")
+        }
+    });
+}
+
+    );
 
 var app = builder.Build();
 
@@ -73,6 +96,8 @@ using (var scope = app.Services.CreateScope())
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 else
 {
@@ -80,6 +105,12 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    options.RoutePrefix = string.Empty;
+});
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

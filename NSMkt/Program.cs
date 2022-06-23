@@ -43,7 +43,13 @@ builder.Services.AddControllersWithViews();
 
 
 
-
+#region GoogleAuth
+builder.Services.AddAuthentication()
+                .AddGoogle(googleOptions => {
+                    googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
+                    googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+                });
+#endregion
 
 
 //Swagger
@@ -133,13 +139,7 @@ using (var scope = app.Services.CreateScope())
 }
 #endregion
 
-#region GoogleAuth
-builder.Services.AddAuthentication()
-                .AddGoogle(googleOptions =>{
-                                             googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
-                                             googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
-                                           });
-#endregion
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -12,7 +12,7 @@ using NSMkt.Models;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 var HFconnectionString = builder.Configuration.GetConnectionString("HangfireConnection")?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-
+var configuration = builder.Configuration;
 
 //Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -112,7 +112,7 @@ app.UseHangfireDashboard("/hangfire", new DashboardOptions
 }
 });
 
-
+#region Identity
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -131,8 +131,15 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occurred seeding the DB.");
     }
 }
+#endregion
 
-
+#region GoogleAuth
+builder.Services.AddAuthentication()
+                .AddGoogle(googleOptions =>{
+                                             googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
+                                             googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+                                           });
+#endregion
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

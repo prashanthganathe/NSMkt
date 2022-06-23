@@ -1,53 +1,81 @@
 using Hangfire;
 using Hangfire.SqlServer;
+using HangfireBasicAuthenticationFilter;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using NSMkt.Data;
 using NSMkt.Models;
 
+
 var builder = WebApplication.CreateBuilder(args);
-//var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-var HFconnectionString = builder.Configuration.GetConnectionString("HangfireConnection");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+var HFconnectionString = builder.Configuration.GetConnectionString("HangfireConnection")?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));;
 
+//Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultUI()
-            .AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultUI()
+                .AddDefaultTokenProviders();
 
-
-// Add services to the container.
-
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-//    .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews();
-
-
-builder.Services.AddHangfire(configuration=>configuration
+//Context,HF
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddHangfire(configuration => configuration
             .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
             .UseSimpleAssemblyNameTypeSerializer()
             .UseRecommendedSerializerSettings()
             .UseSqlServerStorage(HFconnectionString, new SqlServerStorageOptions
             {
-                 CommandBatchMaxTimeout =TimeSpan.FromMinutes(5),
-                 SlidingInvisibilityTimeout=TimeSpan.FromMinutes(5),
-                 QueuePollInterval=TimeSpan.Zero,
-                 DisableGlobalLocks=true
+                CommandBatchMaxTimeout =TimeSpan.FromMinutes(5),
+                SlidingInvisibilityTimeout=TimeSpan.FromMinutes(5),
+                QueuePollInterval=TimeSpan.Zero,
+                DisableGlobalLocks=true
             }));
-
 builder.Services.AddHangfireServer();
+
+// Add services to the container.
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+//    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddControllersWithViews();
+
+
+
+
+
+
+//Swagger
+#region SwaggerAPIKEY_Config
+
 builder.Services.AddSwaggerGen(options =>
 {
+    options.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
+    {
+        Description = "ApiKey must appear in header",
+        Type = SecuritySchemeType.ApiKey,
+        Name = "ApiKey",
+        In = ParameterLocation.Header,
+        Scheme = "ApiKeyScheme"
+    });
+    var key = new OpenApiSecurityScheme()
+    {
+        Reference = new OpenApiReference
+        {
+            Type = ReferenceType.SecurityScheme,
+            Id = "ApiKey"
+        },
+        In = ParameterLocation.Header
+    };
+    var requirement = new OpenApiSecurityRequirement
+                    {
+                             { key, new List<string>() }
+                    };
+    options.AddSecurityRequirement(requirement);
     options.SwaggerDoc("v1", new OpenApiInfo
     {
+
         Version = "v1",
         Title = "NSMKT API",
         Description = "An NSE Mkt API data ",
@@ -65,18 +93,32 @@ builder.Services.AddSwaggerGen(options =>
     });
 }
 
-    );
+);
+#endregion
+
+
 
 var app = builder.Build();
+app.UseHangfireDashboard("/hangfire", new DashboardOptions
+{
+    DashboardTitle = "NSMarket",
+    Authorization = new[] {
+ new HangfireCustomBasicAuthenticationFilter
+ {
 
-app.UseHangfireDashboard();
+        User=builder.Configuration.GetSection("HangfireSettings:UserName").Value,
+        Pass=builder.Configuration.GetSection("HangfireSettings:Password").Value
+ }
+}
+});
+
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var loggerFactory = services.GetRequiredService<ILoggerFactory>();
     try
     {
-        
         var context = services.GetRequiredService<ApplicationDbContext>();
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
@@ -108,26 +150,24 @@ else
 
 app.UseSwaggerUI(options =>
 {
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-    options.RoutePrefix = string.Empty;
+    // options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    // options.RoutePrefix = string.Empty;
 });
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.UseEndpoints(endpoints => { 
+
+app.MapControllerRoute(name: "default",pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints =>
+{
     endpoints.MapControllers();
     endpoints.MapHangfireDashboard();
 });
 app.MapRazorPages();
-
 app.Run();

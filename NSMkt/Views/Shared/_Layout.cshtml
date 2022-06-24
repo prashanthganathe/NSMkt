@@ -21,27 +21,15 @@
 <body id="page-top">
      <!-- Page Wrapper -->
     <div id="wrapper">
-
-                   @{Html.RenderPartial("_sidebar");}
-
+        @{Html.RenderPartial("_sidebar");}
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-
             <!-- Main Content -->
-            <div id="content">
-                
-                   @{Html.RenderPartial("_topbar");}
-
-
-
-                <!-- Begin Page Content -->
+            <div id="content">                
+                   @{Html.RenderPartial("_topbar");}          
                 <div class="container-fluid">
                        @RenderBody()
-
-
                 </div>
-                <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
 

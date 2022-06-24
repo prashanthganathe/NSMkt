@@ -1,0 +1,137 @@
+﻿  <div class="container col-xl-12 ">
+ 
+        <div class="accordion" id="example">
+ 
+            <div class="card">
+                <div class="card-header  bg-primary">
+                    <a class="text-light" data-toggle="collapse" href="#item1">
+                        Collapsible Group Item 1
+                    </a>
+                </div>
+                <div id="item1" class="collapse show" data-parent="#example">
+                    <div class="card-body">
+                       <div class="container">
+                           <div class="row">
+                           <div class="col-xl-8 col-lg-8">
+                                     @{Html.RenderPartial("_scriptgraph","");}      
+                           </div>
+                           <div class="col-xl-4 col-lg-4">
+                                 @{Html.RenderPartial("_indexgraph","");} 
+                           </div>
+                        </div>
+	             </div>
+
+		           
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="card ">
+                <div class="card-header bg-success">
+                    <a class="text-light" data-toggle="collapse" href="#item2">
+                       Option chain
+                    </a>
+                </div>
+                <div id="item2" class="collapse" data-parent="#example">
+                    <div class="card-body">
+                            @{Html.RenderPartial("_optionchain","");}   
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="card ">
+                <div class="card-header bg-info">
+                <a class="text-light" data-toggle="collapse" href="#item3">
+                   COI Comparision
+                </a>
+                </div>
+                <div id="item3" class="collapse" data-parent="#example">
+                    <div class="card-body">
+                        @{Html.RenderPartial("_coicomparision","");}   
+                    </div>
+                </div>
+            </div>
+             
+            <div class="card">
+                <div class="card-header  bg-warning">
+                    <a class="text-light" data-toggle="collapse" href="#item4">
+                        Collapsible Group Item 4
+                    </a>
+                </div>
+                <div id="item4" class="collapse" data-parent="#example">
+                    <div class="card-body">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas porttitor. 
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="card ">
+                <div class="card-header bg-secondary">
+                    <a class="text-light" data-toggle="collapse" href="#item5">
+                        Collapsible Group Item 5
+                    </a>
+                </div>
+                <div id="item5" class="collapse" data-parent="#example">
+                    <div class="card-body">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas porttitor. 
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="card">
+                <div class="card-header  bg-dark">
+                    <a class="text-light" data-toggle="collapse" href="#item6">
+                        Collapsible Group Item 6
+                    </a>
+                </div>
+                <div id="item6" class="collapse" data-parent="#example">
+                    <div class="card-body">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas porttitor. 
+                    </div>
+                </div>
+            </div>
+             
+            <div class="card ">
+                <div class="card-header bg-light">
+                    <a class="text-dark" data-toggle="collapse" href="#item7">
+                        Collapsible Group Item 7
+                    </a>
+                </div>
+                <div id="item7" class="collapse" data-parent="#example">
+                    <div class="card-body">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas porttitor. 
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="card ">
+                <div class="card-header bg-light">
+                    <a class="text-dark" data-toggle="collapse" href="#item8">
+                        Collapsible Group Item 8
+                    </a>
+                </div>
+                <div id="item8" class="collapse" data-parent="#example">
+                    <div class="card-body">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas porttitor. 
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="card ">
+                <div class="card-header bg-dark">
+                    <a class="text-light" data-toggle="collapse" href="#item9">
+                        Collapsible Group Item 9
+                    </a>
+                </div>
+                <div id="item9" class="collapse" data-parent="#example">
+                    <div class="card-body text-white">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas porttitor. 
+                    </div>
+                </div>
+            </div>
+             
+        </div> 
+         
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

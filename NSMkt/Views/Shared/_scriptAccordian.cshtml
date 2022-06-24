@@ -10,16 +10,26 @@
                 </div>
                 <div id="item1" class="collapse show" data-parent="#example">
                     <div class="card-body">
-                       <div class="container">
+                     
                            <div class="row">
-                           <div class="col-xl-8 col-lg-8">
-                                     @{Html.RenderPartial("_scriptgraph","");}      
-                           </div>
-                           <div class="col-xl-4 col-lg-4">
-                                 @{Html.RenderPartial("_indexgraph","");} 
-                           </div>
+                       	<div class="col-xl-4">
+                            @{
+                                Html.RenderPartial("_scriptgraph",new { script= "script" });
+                            }      
                         </div>
-	             </div>
+                         	<div class="col-xl-4">
+                            @{
+                                Html.RenderPartial("_scriptgraph",new { script = "BANKNIFTY" });
+                            } 
+                        </div>
+                      	<div class="col-xl-4">
+                            @{
+                                Html.RenderPartial("_scriptgraph",new { script = "NIFTY" });
+                            } 
+                        </div>
+                    
+                        </div>
+	            
 
 		           
                     </div>
@@ -34,7 +44,14 @@
                 </div>
                 <div id="item2" class="collapse" data-parent="#example">
                     <div class="card-body">
-                            @{Html.RenderPartial("_optionchain","");}   
+                        <div class="row">                        
+                            <div class="col-xl-4">
+                             @{Html.RenderPartial("_optionchain","");}
+                             </div>
+                             	<div class="col-xl-8">
+                            @{Html.RenderPartial("_fulloptionchain","");}  
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

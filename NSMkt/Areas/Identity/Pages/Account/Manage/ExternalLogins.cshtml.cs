@@ -11,23 +11,25 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using NSMkt.Models;
 
 namespace NSMkt.Areas.Identity.Pages.Account.Manage
 {
     public class ExternalLoginsModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly IUserStore<IdentityUser> _userStore;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+   //     private readonly IUserStore<ApplicationUser> _userStore;
 
         public ExternalLoginsModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
-            IUserStore<IdentityUser> userStore)
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager
+            //IUserStore<IdentityUser> userStore
+            )
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _userStore = userStore;
+            //_userStore = userStore;
         }
 
         /// <summary>
@@ -55,29 +57,43 @@ namespace NSMkt.Areas.Identity.Pages.Account.Manage
         [TempData]
         public string StatusMessage { get; set; }
 
+        //public async Task<IActionResult> OnGetAsync()
+        //{
+        //    var user = await _userManager.GetUserAsync(User);
+        //    if (user == null)
+        //    {
+        //        return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+        //    }
+
+        //    CurrentLogins = await _userManager.GetLoginsAsync(user);
+        //    OtherLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync())
+        //        .Where(auth => CurrentLogins.All(ul => auth.Name != ul.LoginProvider))
+        //        .ToList();
+
+        //    string passwordHash = null;
+        //    if (_userStore is IUserPasswordStore<ApplicationUser> userPasswordStore)
+        //    {
+        //        passwordHash = await userPasswordStore.GetPasswordHashAsync(user, HttpContext.RequestAborted);
+        //    }
+
+        //    ShowRemoveButton = passwordHash != null || CurrentLogins.Count > 1;
+        //    return Page();
+        //}
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load user with ID 'user.Id'.");
             }
 
             CurrentLogins = await _userManager.GetLoginsAsync(user);
             OtherLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync())
                 .Where(auth => CurrentLogins.All(ul => auth.Name != ul.LoginProvider))
                 .ToList();
-
-            string passwordHash = null;
-            if (_userStore is IUserPasswordStore<IdentityUser> userPasswordStore)
-            {
-                passwordHash = await userPasswordStore.GetPasswordHashAsync(user, HttpContext.RequestAborted);
-            }
-
-            ShowRemoveButton = passwordHash != null || CurrentLogins.Count > 1;
+            ShowRemoveButton = user.PasswordHash != null || CurrentLogins.Count > 1;
             return Page();
         }
-
         public async Task<IActionResult> OnPostRemoveLoginAsync(string loginProvider, string providerKey)
         {
             var user = await _userManager.GetUserAsync(User);

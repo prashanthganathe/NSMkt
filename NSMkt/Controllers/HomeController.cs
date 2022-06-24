@@ -13,6 +13,11 @@ namespace NSMkt.Controllers
             _logger = logger;
         }
 
+        public IActionResult RefIndex()
+        {
+            return View();
+        }
+
         public IActionResult Index()
         {
             return View();

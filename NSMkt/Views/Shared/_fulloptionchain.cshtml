@@ -78,7 +78,7 @@
 <td style='text-align: right;'>#10p00</td>
 <td style='text-align: right;'>#15p00</td>
 <td style='text-align: right;'>#20p00</td>
-<td style='text-align: right;'><span id="spark-1" ></span></td>
+<td style='text-align: right;'>  <span id="spark-1"></span></td>
 </tr>
 <tr>
 <td style='text-align: right; background-color: #e5e5e5;'>#20c01</td>
@@ -484,20 +484,18 @@
 </table>
 
 <script type="text/javascript">
+var $jq = jQuery.noConflict();
+$jq(document).ready(function() {
 var data1 = [10,8,5,7,4,4,1,5,3,7,4,5,6,3];
-var data2 = [300,40,60,30,80,90,50,40,30,20,30,20,40,60,70];
-$.noConflict();
-$(document).ready(function () {
- 
+var data2 = [30,40,60,30,80,90,50,40,30,20,30,20,40,60,70];
 
+$jq('#spark-1').sparkline(data1, {fillColor:false, height: 30,width: 90,lineColor: "red",});
+$jq('#spark-1').sparkline(data2, { fillColor:false,lineColor: "green",	composite: true});
 
-$('#spark-1').sparkline(data1, {height: 30,width: 90,});
-$('#spark-1').sparkline(data2, {lineColor: "green",	composite: true});
+$jq('#spark-2').sparkline(data1, {fillColor:false, height: 30,width: 90,lineColor: "red",});
+$jq('#spark-2').sparkline(data2, { fillColor:false,lineColor: "green",	composite: true});
 
-$('#spark-2').sparkline(data1, {height: 30,width: 90,});
-$('#spark-2').sparkline(data2, {lineColor: "green",	composite: true});
-
-$('#spark-3').sparkline(data1, {height: 30,width: 90,});
-$('#spark-3').sparkline(data2, {lineColor: "green",	composite: true});
+$jq('#spark-3').sparkline(data1, {fillColor:false, height: 30,width: 90,lineColor: "red",});
+$jq('#spark-3').sparkline(data2, { fillColor:false,lineColor: "green", 	composite: true});
 });
 </script>

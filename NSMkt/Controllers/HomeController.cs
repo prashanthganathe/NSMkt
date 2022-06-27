@@ -25,9 +25,8 @@ namespace NSMkt.Controllers
             //var model = new HomeVM();
             //model.scriptlist = new List<SelectListItem>();
             //model.scriptlist.Add(new SelectListItem() { Text = "BANKNIFTY", Value = "BANKNIFTY", Selected = false });
-
-            SessionKeys.script
-
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeys.script)))
+                HttpContext.Session.SetString(SessionKeys.script, "BANKNIFTY");
             return View();
         }
 

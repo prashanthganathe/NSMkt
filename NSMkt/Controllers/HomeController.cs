@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using NSMkt.Models;
+using NSMkt.Models.VM;
 using System.Diagnostics;
 
 namespace NSMkt.Controllers
@@ -20,6 +22,12 @@ namespace NSMkt.Controllers
 
         public IActionResult Index()
         {
+            //var model = new HomeVM();
+            //model.scriptlist = new List<SelectListItem>();
+            //model.scriptlist.Add(new SelectListItem() { Text = "BANKNIFTY", Value = "BANKNIFTY", Selected = false });
+
+            SessionKeys.script
+
             return View();
         }
 

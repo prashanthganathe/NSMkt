@@ -41,7 +41,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 //    .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
-
+builder.Services.AddSession(o => { o.Cookie.Name="NSMkt"; o.IdleTimeout=TimeSpan.FromMinutes(10); o.Cookie.HttpOnly=true; o.Cookie.IsEssential=true; });
 
 #region GoogleAuth
 builder.Services.AddAuthentication()
@@ -167,7 +167,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseSession();
 
 
 app.MapControllerRoute(name: "default", "{controller}/{action}/{id}",                         

@@ -10,6 +10,31 @@
 	<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
 		<div class="input-group">
 			@*  <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."  aria-label="Search" aria-describedby="basic-addon2">*@
+
+		@*	@{
+				var script = Context.Session.Get(SessionKeys.script).ToString();
+				if (script == null)
+					script = "BANKNIFTY";
+              }
+
+			  <select>
+            @{var country_list = (List<CP.Models.Country_List>)Session["CountryList"];
+                foreach (var item in country_list)
+                {
+                    if (item.Name == script)
+                    {
+                        <option value="@item.ID" selected>@item</option>
+                    }
+                    else
+                    {
+                        <option value="@item.ID">BANKNIFTY</option>
+                    }
+
+                }
+            }
+        </select>*@
+
+
 			<select class="form-control inputstl form-user  bg-light border-0 small" placeholder="Script..." aria-label="Search">
 				<option>BANKNIFTY</option>
 				<option>NIFTY</option>

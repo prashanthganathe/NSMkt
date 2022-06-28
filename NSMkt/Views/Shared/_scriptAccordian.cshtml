@@ -45,12 +45,15 @@
                 <div id="item2" class="collapse" data-parent="#example">
                     <div class="card-body">
                         <div class="row">                        
-                            <div class="col-xl-4">
+                            <div class="col-xl-3">
                              @{Html.RenderPartial("_optionchain","");}
                              </div>
-                             	<div class="col-xl-8">
+                             	<div class="col-xl-6">
                             @{Html.RenderPartial("_fulloptionchain","");}  
                             </div>
+                             <div class="col-xl-3">
+                             @{Html.RenderPartial("_optionchain","monthlyexpiry");}
+                             </div>
                         </div>
                     </div>
                 </div>

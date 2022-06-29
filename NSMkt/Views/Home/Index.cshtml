@@ -19,22 +19,22 @@
 
 	<!-- Earnings (Monthly) Card Example -->
 	<div class="col-xl-3 col-md-6 mb-4">
-		<partial name="_card"  model='new CardModel{ title="Bullish Stock", css="success", type = "BullishStockCount", value="11" }'></partial>
+		<partial name="_card"  model='new CardModel{ title="Bullish Stock", css="success", type = "BullishStockCount", value="11", url="SelectedStocks/BullishList", display="Stock Count 11" }'></partial>
  	
 	</div>
 
 	<!-- Earnings (Monthly) Card Example -->
 	<div class="col-xl-3 col-md-6 mb-4">
-		 @{ Html.RenderPartial("_card",new CardModel{ title="Bearish Stock", css="danger", type = "BearishStockCount", value="05" }); } 
+		 @{ Html.RenderPartial("_card",new CardModel{ title="Bearish Stock", css="danger", type = "BearishStockCount", value="05",   url="SelectedStocks/BearishList", display="Stock Count 05" }); } 
 	</div>
 
 	<!-- Earnings (Monthly) Card Example -->
 	<div class="col-xl-3 col-md-6 mb-4">
-		 @{ Html.RenderPartial("_card",new CardModel{ title="BankNifty", css="info", type = "Banknifty", value="35005" }); } 
+		 @{ Html.RenderPartial("_card",new CardModel{ title="BankNifty", css="info", type = "Banknifty", value="35005", display="Index:35005 (F:35101)" }); } 
 	</div>
 
 		<div class="col-xl-3 col-md-6 mb-4">
-		 @{ Html.RenderPartial("_card",new CardModel{ title="Nifty", css="primary", type = "Nifty", value="15809" }); } 
+		 @{ Html.RenderPartial("_card",new CardModel{ title="Nifty", css="primary", type = "Nifty", value="15809",display="15809 (F:15911)" }); } 
 	</div>
 
 @*@using (Html.BeginForm("ActionName", "ControllerName", FormMethod.Post)) 

@@ -6,7 +6,15 @@
 		<tbody>
 
 			<tr>
-				<td><strong>@Model.title-@Model.expiry</strong></td>
+				<td>
+				<select class="form-control inputstl form-user  bg-light border-0 small" placeholder="Expiry">
+				<option>Expiry</option>
+				<option>30-Jun-2022</option>
+				<option>07-Jul-2022</option>
+				<option>14-Jul-2022</option>
+				<option>21-Jul-2022</option>
+			</select>
+				</td>
 				<td>
 					<div class="input-append date" id="datetimepicker" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
 						<input size="16" type="text" value="12-02-2012" readonly>
@@ -253,3 +261,11 @@ $jo(document).ready(function() {
 });
 
 </script>
+
+@*<script type="text/javascript">
+//var $jo = jQuery.noConflict();
+$(document).ready(function() {
+	$('#datetimepicker').datetimepicker();
+});
+
+</script>*@

@@ -1,18 +1,20 @@
 ﻿	<!-- Area Chart -->
-	<div class="col-xl-12">
+<div class="col-xl-12">
 
-		<div class="row">	
-				<div class="col-xl-4">
-			  @{Html.RenderPartial("_coiCEPEChart",new{ script="",strike="35000"});}  
-			  </div>
-			  	<div class="col-xl-4">
-			    @{Html.RenderPartial("_coiCEPEChart",new{ script="",strike="35000"});}  
-				</div>
-					<div class="col-xl-4">
-				  @{Html.RenderPartial("_coiCEPEChart",new{ script="",strike="35000"});}  
-				  </div>
-			</div>
-
-
-
+	<div class="row">
+		<div class="col-xl-4">
+			@{
+				Html.RenderPartial("_coiCEPEChart", new { script = "", strike = "35000" });
+			}
 		</div>
+		<div class="col-xl-4">
+			<partial name="_multiline" model='new{title="ATM", divid="divatm", height="500px", width="100%"}' />
+		</div>
+		<div class="col-xl-4">
+			@*<partial name="_multiline" model='new{title="ATM+1", divid="divatmp1", height="500px", width="100%"}' />*@
+		</div>
+	</div>
+
+
+
+</div>

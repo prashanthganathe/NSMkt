@@ -38,7 +38,6 @@
     <Folder Include="Middleware\" />
     <Folder Include="Services\General\Interface\" />
     <Folder Include="Services\NSE\Interface\" />
-    <Folder Include="Views\Shared\NewFolder\" />
   </ItemGroup>
 
 </Project>

@@ -5,33 +5,22 @@
             <div class="card">
                 <div class="card-header  bg-primary">
                     <a class="text-light" data-toggle="collapse" href="#item1">
-                       Sentiment
+                       Sentiment- @Model.script +BNF+NF
                     </a>
                 </div>
                 <div id="item1" class="collapse show" data-parent="#example">
-                    <div class="card-body">
-                     
+                    <div class="card-body">                     
                            <div class="row">
-                       	<div class="col-xl-4">
-                            @{
-                                Html.RenderPartial("_scriptgraph",new { script= "script" });
-                            }      
+                       	    <div class="col-xl-4">
+                                   <partial name="_scriptgraph" model='new {title="script" }' ></partial>                           
+                            </div>
+                         	    <div class="col-xl-4">
+                               <partial name="_scriptgraph" model='new {title="BankNifty" }' ></partial>       
+                            </div>
+                      	    <div class="col-xl-4">
+                               <partial name="_scriptgraph" model='new {title="Nifty" }' ></partial>       
+                            </div>                    
                         </div>
-                         	<div class="col-xl-4">
-                            @{
-                                Html.RenderPartial("_scriptgraph",new { script = "BANKNIFTY" });
-                            } 
-                        </div>
-                      	<div class="col-xl-4">
-                            @{
-                                Html.RenderPartial("_scriptgraph",new { script = "NIFTY" });
-                            } 
-                        </div>
-                    
-                        </div>
-	            
-
-		           
                     </div>
                 </div>
             </div>
@@ -39,20 +28,23 @@
             <div class="card ">
                 <div class="card-header bg-success">
                     <a class="text-light" data-toggle="collapse" href="#item2">
-                       Option chain
+                       Option chain- @Model.script
                     </a>
                 </div>
                 <div id="item2" class="collapse" data-parent="#example">
                     <div class="card-body">
                         <div class="row">                        
                             <div class="col-xl-3">
-                             @{Html.RenderPartial("_optionchain","");}
+                                <partial name="_optionchain" model='new { title="Past", expiry="30-Jun-2022"}' />
+                        
                              </div>
                              	<div class="col-xl-6">
-                            @{Html.RenderPartial("_fulloptionchain","");}  
+                                       <partial name="_fulloptionchain" model='new { title="BANKNFITY", expiry="30-Jun-2022"}' />
+                          
                             </div>
                              <div class="col-xl-3">
-                             @{Html.RenderPartial("_optionchain","monthlyexpiry");}
+                                  <partial name="_optionchain" model='new { title="Monthly", expiry="30-Aug-2022"}' />
+                            
                              </div>
                         </div>
                     </div>
@@ -62,12 +54,12 @@
             <div class="card ">
                 <div class="card-header bg-info">
                 <a class="text-light" data-toggle="collapse" href="#item3">
-                   COI Comparision
+                   COI Comparision- @Model.script @Model.strike
                 </a>
                 </div>
                 <div id="item3" class="collapse" data-parent="#example">
-                    <div class="card-body">
-                        @{Html.RenderPartial("_coicomparision","");}   
+                    <div class="card-body">                    
+                        <partial name="_coicomparision"  model='new{strike=@Model.strike}'/>
                     </div>
                 </div>
             </div>

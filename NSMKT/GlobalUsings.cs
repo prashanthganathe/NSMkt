@@ -7,3 +7,4 @@ global using NSMkt.Models;
 global using NSMkt.Services;
 global using NSMkt.Services.Interface;
 global using NSMkt.Services.NSE;
+global using System.Threading.Tasks;

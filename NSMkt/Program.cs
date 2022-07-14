@@ -1,15 +1,17 @@
 using Hangfire;
 using Hangfire.SqlServer;
 using HangfireBasicAuthenticationFilter;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using NSMkt.Data;
-using NSMkt.Models;
+
+
+
 
 
 var builder = WebApplication.CreateBuilder(args);
+                
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 var HFconnectionString = builder.Configuration.GetConnectionString("HangfireConnection")?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 var configuration = builder.Configuration;
@@ -35,6 +37,9 @@ builder.Services.AddHangfire(configuration => configuration
             }));
 builder.Services.AddHangfireServer();
 
+Log.Logger = new LoggerConfiguration().CreateBootstrapLogger();
+builder.Host.UseSerilog(((ctx, lc) => lc.ReadFrom.Configuration(ctx.Configuration)));
+
 // Add services to the container.
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -42,6 +47,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddSession(o => { o.Cookie.Name="NSMkt"; o.IdleTimeout=TimeSpan.FromMinutes(10); o.Cookie.HttpOnly=true; o.Cookie.IsEssential=true; o.Cookie.SameSite = SameSiteMode.None; });
+
+
 
 #region GoogleAuth
 builder.Services.AddAuthentication()
@@ -102,9 +109,15 @@ builder.Services.AddSwaggerGen(options =>
 );
 #endregion
 
+#region DependencyInjection
+builder.Services.AddScoped<IBaseService, BaseService>();
+builder.Services.AddScoped<INSEMarketService, NSEMarketService>();
+
+#endregion
 
 
 var app = builder.Build();
+app.UseSerilogRequestLogging();
 app.UseHangfireDashboard("/hangfire", new DashboardOptions
 {
     DashboardTitle = "NSMarket",

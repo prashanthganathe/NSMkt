@@ -1,0 +1,9 @@
+﻿global using System;
+global using System.Collections.Generic;
+global using System.IO;
+global using System.Linq;
+global using Serilog;
+global using NSMkt.Models;
+global using NSMkt.Services;
+global using NSMkt.Services.Interface;
+global using NSMkt.Services.NSE;

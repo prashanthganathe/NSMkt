@@ -1,0 +1,57 @@
+2022-07-14 10:15:42.050 +10:00 [INF] Start installing Hangfire SQL objects...
+2022-07-14 10:15:42.732 +10:00 [INF] Hangfire SQL objects installed.
+2022-07-14 10:15:46.217 +10:00 [WRN] Role 07d32482-d64e-442b-bc0c-b9b846b26243 validation failed: DuplicateRoleName.
+2022-07-14 10:15:46.229 +10:00 [WRN] Role 29371672-a5db-4c50-acdd-c4428ee60893 validation failed: DuplicateRoleName.
+2022-07-14 10:15:46.232 +10:00 [WRN] Role 67979b76-1360-4cdc-9c21-1255487f7fac validation failed: DuplicateRoleName.
+2022-07-14 10:15:46.234 +10:00 [WRN] Role 8aa420d4-2eca-451a-9175-21a76c25f38a validation failed: DuplicateRoleName.
+2022-07-14 10:15:46.725 +10:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: DEV-VM01\SQLPOC@IEDIHangfire'
+2022-07-14 10:15:46.727 +10:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2022-07-14 10:15:46.728 +10:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2022-07-14 10:15:47.029 +10:00 [INF] Now listening on: https://localhost:7270
+2022-07-14 10:15:47.031 +10:00 [INF] Now listening on: http://localhost:5270
+2022-07-14 10:15:47.033 +10:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-07-14 10:15:47.035 +10:00 [INF] Hosting environment: Development
+2022-07-14 10:15:47.036 +10:00 [INF] Content root path: C:\ForDesktop\NSMkt\NSMKT\
+2022-07-14 10:15:47.131 +10:00 [INF] Server hs-nb023-prash:25920:df81cdaa successfully announced in 358.0313 ms
+2022-07-14 10:15:47.140 +10:00 [INF] Server hs-nb023-prash:25920:df81cdaa is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2022-07-14 10:15:47.164 +10:00 [INF] 1 servers were removed due to timeout
+2022-07-14 10:15:47.269 +10:00 [INF] Server hs-nb023-prash:25920:df81cdaa all the dispatchers started
+2022-07-14 10:15:48.721 +10:00 [INF] HTTP GET / responded 200 in 860.4858 ms
+2022-07-14 10:15:48.782 +10:00 [WRN] The cookie 'NSMkt' has set 'SameSite=None' and must also set 'Secure'.
+2022-07-14 10:18:56.011 +10:00 [INF] Start installing Hangfire SQL objects...
+2022-07-14 10:18:56.395 +10:00 [INF] Hangfire SQL objects installed.
+2022-07-14 10:18:58.928 +10:00 [WRN] Role adaca556-cb7a-4ea9-8adf-650df805070b validation failed: DuplicateRoleName.
+2022-07-14 10:18:58.966 +10:00 [WRN] Role ff130b90-4b70-4759-aa03-089da7df895d validation failed: DuplicateRoleName.
+2022-07-14 10:18:58.971 +10:00 [WRN] Role 5301d5de-f06a-4d2d-a6d0-a1c499fd60ec validation failed: DuplicateRoleName.
+2022-07-14 10:18:58.976 +10:00 [WRN] Role 76af5dd5-1367-43ed-b440-a2821119a7c2 validation failed: DuplicateRoleName.
+2022-07-14 10:18:59.348 +10:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: DEV-VM01\SQLPOC@IEDIHangfire'
+2022-07-14 10:18:59.349 +10:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2022-07-14 10:18:59.350 +10:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2022-07-14 10:18:59.615 +10:00 [INF] Now listening on: https://localhost:7270
+2022-07-14 10:18:59.619 +10:00 [INF] Now listening on: http://localhost:5270
+2022-07-14 10:18:59.622 +10:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-07-14 10:18:59.623 +10:00 [INF] Hosting environment: Development
+2022-07-14 10:18:59.625 +10:00 [INF] Content root path: C:\ForDesktop\NSMkt\NSMKT\
+2022-07-14 10:18:59.731 +10:00 [INF] Server hs-nb023-prash:31880:b1df8569 successfully announced in 353.1763 ms
+2022-07-14 10:18:59.739 +10:00 [INF] Server hs-nb023-prash:31880:b1df8569 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2022-07-14 10:18:59.878 +10:00 [INF] Server hs-nb023-prash:31880:b1df8569 all the dispatchers started
+2022-07-14 10:19:02.204 +10:00 [INF] HTTP GET / responded 200 in 872.1169 ms
+2022-07-14 10:19:02.525 +10:00 [WRN] The cookie 'NSMkt' has set 'SameSite=None' and must also set 'Secure'.
+2022-07-14 10:23:59.769 +10:00 [INF] 1 servers were removed due to timeout
+2022-07-14 10:25:32.382 +10:00 [INF] HTTP GET /Identity/Account/Login responded 200 in 201.4052 ms
+2022-07-14 10:25:32.425 +10:00 [INF] HTTP GET /Identity/Account/vendor/fontawesome-free/css/all.min.css responded 404 in 13.1729 ms
+2022-07-14 10:25:32.467 +10:00 [INF] HTTP GET /Identity/Account/img/undraw_profile_1.svg responded 404 in 0.7646 ms
+2022-07-14 10:25:32.467 +10:00 [INF] HTTP GET /Identity/Account/img/undraw_profile_2.svg responded 404 in 0.3828 ms
+2022-07-14 10:25:32.470 +10:00 [INF] HTTP GET /Identity/Account/img/undraw_profile_3.svg responded 404 in 0.8378 ms
+2022-07-14 10:25:32.545 +10:00 [INF] HTTP GET /Identity/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js responded 200 in 80.1511 ms
+2022-07-14 10:25:32.545 +10:00 [INF] HTTP GET /Identity/lib/jquery-validation/dist/jquery.validate.js responded 200 in 82.3724 ms
+2022-07-14 10:25:36.297 +10:00 [INF] HTTP GET / responded 200 in 26.3884 ms
+2022-07-14 10:25:36.303 +10:00 [WRN] The cookie 'NSMkt' has set 'SameSite=None' and must also set 'Secure'.

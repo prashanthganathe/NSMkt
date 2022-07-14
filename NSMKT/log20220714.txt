@@ -55,3 +55,27 @@
 2022-07-14 10:25:32.545 +10:00 [INF] HTTP GET /Identity/lib/jquery-validation/dist/jquery.validate.js responded 200 in 82.3724 ms
 2022-07-14 10:25:36.297 +10:00 [INF] HTTP GET / responded 200 in 26.3884 ms
 2022-07-14 10:25:36.303 +10:00 [WRN] The cookie 'NSMkt' has set 'SameSite=None' and must also set 'Secure'.
+2022-07-14 14:16:27.961 +10:00 [INF] Start installing Hangfire SQL objects...
+2022-07-14 14:16:28.835 +10:00 [INF] Hangfire SQL objects installed.
+2022-07-14 14:16:32.225 +10:00 [WRN] Role f56caed4-13b7-4e1c-9ac2-32dc3048a7c5 validation failed: DuplicateRoleName.
+2022-07-14 14:16:32.245 +10:00 [WRN] Role 50bf56b9-df4e-44e9-a68a-4ea481fb2c60 validation failed: DuplicateRoleName.
+2022-07-14 14:16:32.247 +10:00 [WRN] Role 9160f80e-0aa8-4ca7-8c34-67596272435e validation failed: DuplicateRoleName.
+2022-07-14 14:16:32.249 +10:00 [WRN] Role b101c1e7-d430-4bc1-b3b3-6eae68905b25 validation failed: DuplicateRoleName.
+2022-07-14 14:16:33.202 +10:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: DEV-VM01\SQLPOC@IEDIHangfire'
+2022-07-14 14:16:33.204 +10:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2022-07-14 14:16:33.204 +10:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2022-07-14 14:16:33.253 +10:00 [INF] Server hs-nb023-prash:39904:d5ffcf98 successfully announced in 19.1772 ms
+2022-07-14 14:16:33.294 +10:00 [INF] Server hs-nb023-prash:39904:d5ffcf98 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2022-07-14 14:16:33.335 +10:00 [INF] 1 servers were removed due to timeout
+2022-07-14 14:16:33.440 +10:00 [INF] Server hs-nb023-prash:39904:d5ffcf98 all the dispatchers started
+2022-07-14 14:16:33.789 +10:00 [INF] Now listening on: https://localhost:7270
+2022-07-14 14:16:33.790 +10:00 [INF] Now listening on: http://localhost:5270
+2022-07-14 14:16:33.792 +10:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-07-14 14:16:33.793 +10:00 [INF] Hosting environment: Development
+2022-07-14 14:16:33.794 +10:00 [INF] Content root path: C:\ForDesktop\NSMkt\NSMKT\
+2022-07-14 14:16:35.940 +10:00 [INF] HTTP GET / responded 200 in 775.4585 ms
+2022-07-14 14:16:36.307 +10:00 [WRN] The cookie 'NSMkt' has set 'SameSite=None' and must also set 'Secure'.

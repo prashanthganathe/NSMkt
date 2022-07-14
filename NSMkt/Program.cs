@@ -6,10 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using NSMkt.Data;
 
-
-
-
-
 var builder = WebApplication.CreateBuilder(args);
                 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -112,6 +108,8 @@ builder.Services.AddSwaggerGen(options =>
 #region DependencyInjection
 builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<INSEMarketService, NSEMarketService>();
+builder.Services.AddScoped<IGlobalVariableService, GlobalVariableService>();
+builder.Services.AddScoped<INSEOCService, NSEOCService>();
 
 #endregion
 
@@ -124,7 +122,6 @@ app.UseHangfireDashboard("/hangfire", new DashboardOptions
     Authorization = new[] {
  new HangfireCustomBasicAuthenticationFilter
  {
-
         User=builder.Configuration.GetSection("HangfireSettings:UserName").Value,
         Pass=builder.Configuration.GetSection("HangfireSettings:Password").Value
  }
@@ -177,7 +174,6 @@ app.UseSwaggerUI(options =>
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
@@ -190,5 +186,12 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllers();
     endpoints.MapHangfireDashboard();
 });
+
+var temp=new GlobalVariableService();
+if (app.Environment.IsDevelopment())
+    await temp.CleanHangFireJobs();
+await temp.RunHangFireServices();
+
+
 app.MapRazorPages();
 app.Run();

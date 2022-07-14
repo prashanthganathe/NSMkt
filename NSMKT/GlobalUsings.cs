@@ -8,3 +8,8 @@ global using NSMkt.Services;
 global using NSMkt.Services.Interface;
 global using NSMkt.Services.NSE;
 global using System.Threading.Tasks;
+global using System.Net;
+global using System.Web;
+global using NSMkt.Data;
+global using Newtonsoft.Json;
+global using NSMkt.Models.NSEModels;

@@ -13,6 +13,9 @@ namespace NSMkt.Data
         {
         }
 
+        public DbSet<OptionChainSummary> OptionChainSummary { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

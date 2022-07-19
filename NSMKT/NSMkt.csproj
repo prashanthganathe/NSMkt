@@ -46,6 +46,7 @@
 
   <ItemGroup>
     <Folder Include="Middleware\" />
+    <Folder Include="Log\" />
   </ItemGroup>
 
 </Project>

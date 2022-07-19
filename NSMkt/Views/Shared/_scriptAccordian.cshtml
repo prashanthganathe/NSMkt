@@ -13,7 +13,7 @@
 							<div class="row">
 						<!-- Border Left Utilities -->
 						<div class="col-xl-6">
-							<div class="card mb-4 py-3 border-left-primary">
+							<div class="card mb-4  border-left-primary"> @*py-3*@
 								<div class="card-body">
 									High:36000              Low:35000                      Open:35500
 								</div>
@@ -21,7 +21,7 @@
 						</div>
 
 								<div class="col-xl-6">
-							<div class="card mb-4 py-3 border-left-primary">
+							<div class="card mb-4 border-left-primary"> @*py-3*@
 								<div class="card-body">
 									High:16000               Low:15000						Open:15500
 								</div>
@@ -44,7 +44,18 @@
 
 
 
-
+				<div class="card ">
+			<div class="card-header bg-info">
+				<a class="text-light" data-toggle="collapse" href="#item1">
+					COI Comparision- @Model.script @Model.strike
+				</a>
+			</div>
+			<div id="item3" class="collapse show" data-parent="#example">
+				<div class="card-body">
+					<partial name="_coicomparision" model='new{strike=@Model.strike}' />
+				</div>
+			</div>
+		</div>
 
 
 		<div class="card ">
@@ -69,28 +80,17 @@
 			</div>
 		</div>
 
-		<div class="card ">
-			<div class="card-header bg-info">
-				<a class="text-light" data-toggle="collapse" href="#item3">
-					COI Comparision- @Model.script @Model.strike
-				</a>
-			</div>
-			<div id="item3" class="collapse" data-parent="#example">
-				<div class="card-body">
-					<partial name="_coicomparision" model='new{strike=@Model.strike}' />
-				</div>
-			</div>
-		</div>
+
 
 
 
 		<div class="card">
 			<div class="card-header  bg-secondary">
-				<a class="text-light" data-toggle="collapse" href="#item1">
+				<a class="text-light" data-toggle="collapse" href="#item4">
 					Morning Status
 				</a>
 			</div>
-			<div id="item1" class="collapse show" data-parent="#example">
+			<div id="item1" class="collapse" data-parent="#example">
 				<div class="card-body">
 					<div class="row">
 						<div class="col-xl-6">

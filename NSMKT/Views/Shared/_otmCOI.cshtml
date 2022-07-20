@@ -1,0 +1,140 @@
+﻿
+
+
+<style>
+    
+#otmchart {
+  min-width: 450px;
+  max-height:330px;
+  margin: 15px auto;
+}
+</style>
+
+<div class="card shadow">
+	<!-- Card Header - Dropdown -->
+@*	<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+		<h6 class="m-0 font-weight-bold text-primary">@Model.title</h6>
+	</div>*@
+	<!-- Card Body -->
+	<div class="card-body">
+		<div class="chart-area">
+			<div class="row">
+				<table>
+					<tbody>
+						<tr>
+							<td>
+								<select class="form-control inputstl form-user  bg-light border-0 small" placeholder="Expiry">
+									<option>Strike</option>
+									<option>15000</option>
+									<option>15100</option>
+									<option>15200</option>
+									<option>15300</option>
+								</select>
+							</td>
+							<td>
+								<div class="input-group-append"><button class="btn form-user btn-success" type="button">Submit</button></div>
+							</td>
+						</tr>
+
+						<tr>
+							<td colspan="2"><div id="otmchart"></div></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+    <script>
+      
+        var options = {
+          series: [{
+            name: "Session Duration",
+            data: [450, 520, 380, 240, 330, 260, 210, 200, 60, 80, 150, 100]
+          },
+          {
+            name: "Page Views",
+            data: [35, 41, 62, 42, 13, 18, 29, 37, 36, 51, 32, 35]
+          },
+          {
+            name: 'Total Visits',
+            data: [87, 57, 74, 99, 75, 38, 62, 47, 82, 56, 45, 47]
+          }
+        ],
+          chart: {
+          height: 350,
+          type: 'line',
+          zoom: {
+            enabled: false
+          },
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          width: [3, 3, 3],
+          curve: 'straight',
+          dashArray: [0, 0, 0]
+        },
+        title: {
+          text: 'OTM',
+          align: 'left'
+        },
+        legend: {
+          tooltipHoverFormatter: function(val, opts) {
+            return val + ' - <strong>' + opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] + '</strong>'
+          }
+        },
+        markers: {
+          size: 0,
+          hover: {
+            sizeOffset: 6
+          }
+        },
+        xaxis: {
+          categories: ['01 Jan', '02 Jan', '03 Jan', '04 Jan', '05 Jan', '06 Jan', '07 Jan', '08 Jan', '09 Jan',
+            '10 Jan', '11 Jan', '12 Jan'
+          ],
+        },
+        tooltip: {
+          y: [
+            {
+              title: {
+                formatter: function (val) {
+                  return val + " (mins)"
+                }
+              }
+            },
+            {
+              title: {
+                formatter: function (val) {
+                  return val + " per session"
+                }
+              }
+            },
+            {
+              title: {
+                formatter: function (val) {
+                  return val;
+                }
+              }
+            }
+          ]
+        },
+        grid: {
+          borderColor: '#f1f1f1',
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#otmchart"), options);
+        chart.render();
+      
+      
+    </script>
+
+
+
+

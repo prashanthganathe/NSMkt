@@ -8,7 +8,24 @@ namespace NSMkt.Controllers.API
     [ApiController]
     public class SampleController : ControllerBase
     {
+
+
         [HttpGet]
+        [Route("LineChartData")]
+        public async Task<string> LineChartData(string bnfchart = "")
+        {
+            var ret = new LineSample();
+            ret.Data= new List<SampleLine>();
+            for (int i = 0; i<30; i++)
+            {
+                ret.Data.Add(new SampleLine {  X=i,  Y= i});
+            }
+            return JsonConvert.SerializeObject(ret);
+        }
+
+
+        [HttpGet]
+        [Route("ChartData")]
         public async Task<string> ChartData(string bnfchart="")
         {
             var ret = new SampleChart();

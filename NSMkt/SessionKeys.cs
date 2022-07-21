@@ -6,6 +6,8 @@
         public const string strike = "strike";
         public const string expiry = "expiry";
         public const string scriptList = "scriptList";
+        public const string scriptIteration = "scriptIteration";
+        public const string scriptSpot = "scriptSpot";
         public const string currentScriptLTP = "currentScriptLTP";
     }
 }

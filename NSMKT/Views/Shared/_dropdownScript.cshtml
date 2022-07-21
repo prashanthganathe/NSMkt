@@ -1,8 +1,25 @@
 ﻿
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
-<select class="form-control inputstl form-user  bg-light border-0 small" placeholder="Script..." aria-label="Search">
+@model NSMkt.Models.VM.ScriptModel
+
+@using (Html.BeginForm())
+{
+    @Html.DropDownListFor(m => m.Script, Model.Scripts)
+
+     <partial name="_dropdownExpiry" />
+
+	
+			<div class="input-group-append">
+				<button class="btn form-user btn-success" type="button">Submit</button>
+				<a href="#" class="btn btn-success btn-icon-split">
+					<span class="icon text-white-50">
+						<i class="fas fa-arrow-right"></i>
+					</span>
+				</a>
+			</div>
+}
+
+
+@*<select class="form-control inputstl form-user  bg-light border-0 small" placeholder="Script..." aria-label="Search">
     <option>NIFTY</option>
     <option>BANKNIFTY</option>
     <option>ABB</option>
@@ -206,4 +223,4 @@
     <option>ZOMATO</option>
     <option>ZYDUSLIFE</option>
 
-</select>
+</select>*@

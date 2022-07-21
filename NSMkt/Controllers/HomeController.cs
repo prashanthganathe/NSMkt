@@ -26,6 +26,7 @@ namespace NSMkt.Controllers
                 script="BANKNIFTY";
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeys.script)))
                 HttpContext.Session.SetString(SessionKeys.script,script);
+
             return View();
         }
 

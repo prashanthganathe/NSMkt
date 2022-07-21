@@ -24,7 +24,7 @@ namespace NSMkt.Controllers
         {
             if (script==null)
                 script="BANKNIFTY";
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeys.script)))
+           if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeys.script)))
                 HttpContext.Session.SetString(SessionKeys.script,script);
 
             if (expiry == null)
@@ -40,8 +40,10 @@ namespace NSMkt.Controllers
             return View(scrExpModel);
         }
 
+ 
         [HttpPost]
-        public ActionResult SetScript(string script,string expiry)
+       // [ValidateAntiForgeryToken()]
+        public ActionResult setScript(string script,string expiry)
         {
            
             HttpContext.Session.SetString(SessionKeys.script, script);

@@ -1,21 +1,52 @@
 ﻿
 @model NSMkt.Models.VM.ModelScriptExpiry
 
-@using (   Html.BeginForm("SetScript","Home",FormMethod.Post,new { script=Model.scriptModel.Script, expiry=Model.expiryDropdownModel.Expiry}))
-{
 
-   
-    @Html.DropDownListFor(m => m.scriptModel.Script, Model.scriptModel.Scripts , new {@class="form-control inputstl form-user  bg-light border-0 small"})
-    @Html.DropDownListFor(m => m.expiryDropdownModel.Expiry, Model.expiryDropdownModel.Expiries,new {@class="form-control inputstl form-user  bg-light border-0 small"})
+@*@using (Html.BeginForm("setScript","Home",FormMethod.Post))*@
+
+
+ @*   @Html.AntiForgeryToken()*@
+    @Html.DropDownListFor(m => Model.scriptModel.Script, Model.scriptModel.Scripts , new { id="ddlScript", @class="form-control inputstl form-user  bg-light border-0 small"})
+    @Html.DropDownListFor(m => Model.expiryDropdownModel.Expiry, Model.expiryDropdownModel.Expiries,new { id="ddlExpiry",@class="form-control inputstl form-user  bg-light border-0 small"})
 
 	
 	<div class="input-group-append">
-		<button class="btn form-user btn-success" name="submit" type="submit">Submit</button>
+		<button class="btn form-user btn-success"  id="btnScriptExp">Submit</button>
 		<a href="#" class="btn btn-success btn-icon-split">
 			<span class="icon text-white-50">
 				<i class="fas fa-arrow-right"></i>
 			</span>
 		</a>
 	</div>
-}
+
+
+
+<script type="text/javascript">
+        $(function () {
+            $("#btnScriptExp").click(function () {
+               // var token = $('input[name="__RequestVerificationToken"]').val();
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/setScript",
+                    data: {
+                       // __RequestVerificationToken: token
+                            script: $("#ddlScript").val()
+                            , expiry: $("#ddlExpiry").val()
+                    },                   
+                    success: function (response) {
+                        debugger;
+                        $("#ddlScript").val();
+                         $("#ddlExpiry").val();
+                       // alert("Hello: " + response.Name + " .\nCurrent Date and Time: " + response.DateTime);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            });
+        });
+    </script>
 

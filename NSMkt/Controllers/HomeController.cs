@@ -20,13 +20,13 @@ namespace NSMkt.Controllers
             return View();
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string script)
         {
-            //var model = new HomeVM();
-            //model.scriptlist = new List<SelectListItem>();
-            //model.scriptlist.Add(new SelectListItem() { Text = "BANKNIFTY", Value = "BANKNIFTY", Selected = false });
+            if (script==null)
+                script="BANKNIFTY";
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeys.script)))
-                HttpContext.Session.SetString(SessionKeys.script, "BANKNIFTY");
+                HttpContext.Session.SetString(SessionKeys.script,script);
+
             return View();
         }
 

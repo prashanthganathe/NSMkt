@@ -2,6 +2,13 @@
 
 namespace NSMkt.Models.VM
 {
+    public class ModelScriptExpiry
+    {
+       public ScriptModel scriptModel { get; set; }
+       public  ExpiryDropdownModel expiryDropdownModel { get; set; }
+    }
+
+
     public class ScriptModel
     {
         public string Script { get; set; }

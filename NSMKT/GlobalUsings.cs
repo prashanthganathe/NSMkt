@@ -13,3 +13,4 @@ global using System.Web;
 global using NSMkt.Data;
 global using Newtonsoft.Json;
 global using NSMkt.Models.NSEModels;
+global using Microsoft.AspNetCore.Mvc.Rendering; 

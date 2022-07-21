@@ -20,16 +20,40 @@ namespace NSMkt.Controllers
             return View();
         }
 
-        public IActionResult Index(string script)
+        public IActionResult Index(string script,string expiry)
         {
             if (script==null)
                 script="BANKNIFTY";
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeys.script)))
                 HttpContext.Session.SetString(SessionKeys.script,script);
 
-            return View();
+            if (expiry == null)
+                expiry = "21-Jul-2022";
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeys.expiry)))
+                HttpContext.Session.SetString(SessionKeys.expiry, expiry);
+
+            var scrExpModel = new ModelScriptExpiry();
+            scrExpModel.scriptModel = new ScriptModel();
+            scrExpModel.expiryDropdownModel = new ExpiryDropdownModel();
+            scrExpModel.scriptModel.Script = script;
+            scrExpModel.expiryDropdownModel.Expiry = expiry;
+            return View(scrExpModel);
         }
 
+        [HttpPost]
+        public ActionResult SetScript(string script,string expiry)
+        {
+           
+            HttpContext.Session.SetString(SessionKeys.script, script);
+            HttpContext.Session.SetString(SessionKeys.expiry, expiry);
+
+            var scrExpModel = new ModelScriptExpiry();
+            scrExpModel.scriptModel = new ScriptModel();
+            scrExpModel.expiryDropdownModel = new ExpiryDropdownModel();
+            scrExpModel.scriptModel.Script = script;
+            scrExpModel.expiryDropdownModel.Expiry = expiry;
+            return View(scrExpModel);
+        }
         public IActionResult Privacy()
         {
             return View();

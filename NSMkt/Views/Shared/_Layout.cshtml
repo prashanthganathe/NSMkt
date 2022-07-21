@@ -54,16 +54,13 @@
 <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
-        @{
-            Html.RenderPartial("_sidebar");
-        }
+        <partial name="_sidebar" />
+   
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
             <!-- Main Content -->
             <div id="content">
-                @{
-                    Html.RenderPartial("_topbar");
-                }
+                <partial name="_topbar" />         
                 <div class="container-fluid">
                     @RenderBody()
                 </div>

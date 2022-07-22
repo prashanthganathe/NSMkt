@@ -110,7 +110,7 @@ builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<INSEMarketService, NSEMarketService>();
 builder.Services.AddScoped<IGlobalVariableService, GlobalVariableService>();
 builder.Services.AddScoped<INSEOCService, NSEOCService>();
-
+builder.Services.AddScoped<ICommonService, CommonService>();
 #endregion
 
 

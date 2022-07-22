@@ -16,9 +16,9 @@ namespace NSMkt.Controllers.API
         {
             var ret = new LineSample();
             ret.Data= new List<SampleLine>();
-            for (int i = 0; i<30; i++)
+            for (int i = 0; i<10; i++)
             {
-                ret.Data.Add(new SampleLine {  X=i,  Y= i});
+                ret.Data.Add(new SampleLine {  x=1900+i,  y= i});
             }
             return JsonConvert.SerializeObject(ret);
         }

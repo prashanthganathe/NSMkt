@@ -4,10 +4,10 @@
     public class SampleLine
     {
         [JsonProperty("x")]
-        public int X;
+        public int x;
 
         [JsonProperty("y")]
-        public int Y;
+        public int y;
     }
 
     public class LineSample

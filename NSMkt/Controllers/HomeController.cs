@@ -8,12 +8,15 @@ namespace NSMkt.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ICommonService _commonService;
+
         private readonly ILogger<HomeController> _logger;
         private IHttpContextAccessor Accessor;
-        public HomeController(ILogger<HomeController> logger, IHttpContextAccessor _accessor)
+        public HomeController(ILogger<HomeController> logger, IHttpContextAccessor _accessor, ICommonService commonService)
         {
             _logger = logger;
             this.Accessor = _accessor;
+            _commonService = commonService;
         }
 
         public IActionResult RefIndex()
@@ -24,7 +27,6 @@ namespace NSMkt.Controllers
         public IActionResult Index()
         {
             HttpContext context = this.Accessor.HttpContext;
-
             if (string.IsNullOrEmpty((HttpContext.Session.GetString(SessionKeys.script))))
                 HttpContext.Session.SetString(SessionKeys.script, "BANKNIFTY");
             if (string.IsNullOrEmpty((HttpContext.Session.GetString(SessionKeys.expiry))))
@@ -36,6 +38,8 @@ namespace NSMkt.Controllers
             scrExpModel.scriptModel.Script = HttpContext.Session.GetString(SessionKeys.script);
             scrExpModel.expiryDropdownModel.Expiry = HttpContext.Session.GetString(SessionKeys.expiry);
             return View(scrExpModel);
+            //var scrExpModel = _commonService.GetSessionObj();           
+            //return View(scrExpModel);
         }
 
  

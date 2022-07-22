@@ -4,7 +4,7 @@
 @inject IHttpContextAccessor Accessor
 
 
-        
+    @Html.AntiForgeryToken()
     @Html.DropDownListFor(m => Model.scriptModel.Script, Model.scriptModel.Scripts , new { id="ddlScript",style = "max-width: 180px;", @class="form-control inputstl form-user  bg-light border-0 small"})
     @Html.DropDownListFor(m => Model.expiryDropdownModel.Expiry, Model.expiryDropdownModel.Expiries,new { id="ddlExpiry",style = "max-width: 150px;",@class="form-control inputstl form-user  bg-light border-0 small"})
 
@@ -23,13 +23,13 @@
 <script type="text/javascript">
         $(function () {
             $("#btnScriptExp").click(function () {
-               // var token = $('input[name="__RequestVerificationToken"]').val();
+               var token = $('input[name="__RequestVerificationToken"]').val();
                 $.ajax({
                     type: "POST",
-                    url: "../Home/setScript",
+                    url: "../Ajax/setScript",
                     data: {
-                       // __RequestVerificationToken: token
-                            script: $("#ddlScript").val()
+                        __RequestVerificationToken: token
+                           , script: $("#ddlScript").val()
                             , expiry: $("#ddlExpiry").val()
                     },                   
                     success: function (response) {                    

@@ -43,35 +43,35 @@ namespace NSMkt.Controllers
         }
 
  
-        [HttpPost]
-       // [ValidateAntiForgeryToken()]
-        public  JsonResult setScript(string script,string expiry)
-        {
+       // [HttpPost]
+       //// [ValidateAntiForgeryToken()]
+       // public  JsonResult setScript(string script,string expiry)
+       // {
            
-            HttpContext.Session.SetString(SessionKeys.script, script);
-            HttpContext.Session.SetString(SessionKeys.expiry, expiry);
+       //     HttpContext.Session.SetString(SessionKeys.script, script);
+       //     HttpContext.Session.SetString(SessionKeys.expiry, expiry);
 
-            HttpContext.Session.SetString(SessionKeys.strike, GetATM(script,expiry));
-            HttpContext.Session.SetString(SessionKeys.scriptIteration, GetIteration(script, expiry));
+       //     HttpContext.Session.SetString(SessionKeys.strike, GetATM(script,expiry));
+       //     HttpContext.Session.SetString(SessionKeys.scriptIteration, GetIteration(script, expiry));
 
-            var scrExpModel = new ModelScriptExpiry();
-            scrExpModel.scriptModel = new ScriptModel();
-            scrExpModel.expiryDropdownModel = new ExpiryDropdownModel();
-            scrExpModel.scriptModel.Script = script;
-            scrExpModel.expiryDropdownModel.Expiry = expiry;
-            return  Json(scrExpModel);
+       //     var scrExpModel = new ModelScriptExpiry();
+       //     scrExpModel.scriptModel = new ScriptModel();
+       //     scrExpModel.expiryDropdownModel = new ExpiryDropdownModel();
+       //     scrExpModel.scriptModel.Script = script;
+       //     scrExpModel.expiryDropdownModel.Expiry = expiry;
+       //     return  Json(scrExpModel);
                 
-        }
+       // }
 
-        public string GetATM(string script,string expiry)
-        {
-            return "16000";
-        }
+        //public string GetATM(string script,string expiry)
+        //{
+        //    return "16000";
+        //}
 
-        public string GetIteration(string script,string expiry)
-        {
-            return "100";
-        }
+        //public string GetIteration(string script,string expiry)
+        //{
+        //    return "100";
+        //}
 
 
         public IActionResult Privacy()

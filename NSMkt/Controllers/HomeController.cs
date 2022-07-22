@@ -9,10 +9,11 @@ namespace NSMkt.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private IHttpContextAccessor Accessor;
+        public HomeController(ILogger<HomeController> logger, IHttpContextAccessor _accessor)
         {
             _logger = logger;
+            this.Accessor = _accessor;
         }
 
         public IActionResult RefIndex()
@@ -20,42 +21,55 @@ namespace NSMkt.Controllers
             return View();
         }
 
-        public IActionResult Index(string script,string expiry)
+        public IActionResult Index()
         {
-            if (script==null)
-                script="BANKNIFTY";
-           if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeys.script)))
-                HttpContext.Session.SetString(SessionKeys.script,script);
+            HttpContext context = this.Accessor.HttpContext;
 
-            if (expiry == null)
-                expiry = "21-Jul-2022";
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeys.expiry)))
-                HttpContext.Session.SetString(SessionKeys.expiry, expiry);
+            if (string.IsNullOrEmpty((HttpContext.Session.GetString(SessionKeys.script))))
+                HttpContext.Session.SetString(SessionKeys.script, "BANKNIFTY");
+            if (string.IsNullOrEmpty((HttpContext.Session.GetString(SessionKeys.expiry))))
+                HttpContext.Session.SetString(SessionKeys.expiry, "27-Jul-2022");
 
             var scrExpModel = new ModelScriptExpiry();
             scrExpModel.scriptModel = new ScriptModel();
             scrExpModel.expiryDropdownModel = new ExpiryDropdownModel();
-            scrExpModel.scriptModel.Script = script;
-            scrExpModel.expiryDropdownModel.Expiry = expiry;
+            scrExpModel.scriptModel.Script = HttpContext.Session.GetString(SessionKeys.script);
+            scrExpModel.expiryDropdownModel.Expiry = HttpContext.Session.GetString(SessionKeys.expiry);
             return View(scrExpModel);
         }
 
  
         [HttpPost]
        // [ValidateAntiForgeryToken()]
-        public ActionResult setScript(string script,string expiry)
+        public  JsonResult setScript(string script,string expiry)
         {
            
             HttpContext.Session.SetString(SessionKeys.script, script);
             HttpContext.Session.SetString(SessionKeys.expiry, expiry);
+
+            HttpContext.Session.SetString(SessionKeys.strike, GetATM(script,expiry));
+            HttpContext.Session.SetString(SessionKeys.scriptIteration, GetIteration(script, expiry));
 
             var scrExpModel = new ModelScriptExpiry();
             scrExpModel.scriptModel = new ScriptModel();
             scrExpModel.expiryDropdownModel = new ExpiryDropdownModel();
             scrExpModel.scriptModel.Script = script;
             scrExpModel.expiryDropdownModel.Expiry = expiry;
-            return View(scrExpModel);
+            return  Json(scrExpModel);
+                
         }
+
+        public string GetATM(string script,string expiry)
+        {
+            return "16000";
+        }
+
+        public string GetIteration(string script,string expiry)
+        {
+            return "100";
+        }
+
+
         public IActionResult Privacy()
         {
             return View();

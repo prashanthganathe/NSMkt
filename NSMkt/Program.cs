@@ -42,7 +42,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 //    .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddSession(o => { o.Cookie.Name="NSMkt"; o.IdleTimeout=TimeSpan.FromMinutes(10); o.Cookie.HttpOnly=true; o.Cookie.IsEssential=true; o.Cookie.SameSite = SameSiteMode.None; });
+builder.Services.AddSession(o => { o.Cookie.Name="NSMkt"; o.IdleTimeout=TimeSpan.FromMinutes(10); o.Cookie.HttpOnly=true; o.Cookie.IsEssential=true; });// o.Cookie.SameSite = SameSiteMode.None;
 
 
 

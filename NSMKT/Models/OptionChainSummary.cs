@@ -47,19 +47,7 @@
         public string SummaryJson { get; set; }
 
 
-        #region stocks
-        public int CECount { get; set; }
-        public int PECount { get; set; }
-        public decimal IsDoji { get; set; }
-        public decimal prev1Support { get; set; }
-        public decimal prev1Resistance { get; set; }
-        public decimal prev1Support1 { get; set; }
-        public decimal prev1Resistance1 { get; set; }
-        public decimal prev2Support { get; set; }
-        public decimal prev2Resistance { get; set; }
-        public decimal prev2Support1 { get; set; }
-        public decimal prev2Resistance1 { get; set; }
-        #endregion
+
 
         // Advanced Analysis
         //public decimal intrinsicCEvalue { get; set; }

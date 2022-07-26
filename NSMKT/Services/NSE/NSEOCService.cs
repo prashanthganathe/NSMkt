@@ -149,7 +149,7 @@ namespace NSMkt.Services.NSE
                         }
                         var n50 = await Nifty50ListAPI();
                         var n50Scripts = n50.SelectMany(x => x.Data.Select(x => x.Symbol.ToUpper())).ToList();
-                        foList.Where(y=>n50.Select(x=>x.Data.Select(x=>x.Symbol.ToUpper).ToList().Contains(y.script.ToUpper()))).ToList().fo
+                        foList.Where(y => n50Scripts.Contains(y.script.ToUpper())).ToList().ForEach(x => x.IsTop50 = true);
 
                         if (foList.Count > 0)
                         {

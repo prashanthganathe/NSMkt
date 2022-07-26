@@ -268,38 +268,7 @@ namespace NSMkt.Services.NSE
             }
         }
 
-        public bool IsMarketTime(bool treatmarketTime = false)
-        {
-            TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
-            DateTime indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
-
-            if (!IsHoliday(indianTime))
-                return true;
-
-
-
-            if (IsMarketDay())
-            {
-                Console.WriteLine("IsMarketDay=true..............");
-                var from = indianTime.Date.Add(new TimeSpan(9, 6, 0));
-                var to = indianTime.Date.Add(new TimeSpan(15, 36, 0));
-                if (indianTime > from && indianTime < to)
-                {
-                    Console.WriteLine("MktHrs=true..............");
-                    return true;
-                }
-                else
-                {
-                    Console.WriteLine("MktHrs=false..............");
-                    return false;
-                }
-            }
-            else
-            {
-                Console.WriteLine("IsMarketDay=false..............");
-                return false;
-            }
-        }
+    
 
 
         public bool IsUSEMarketTime(bool treatmarketTime = false)

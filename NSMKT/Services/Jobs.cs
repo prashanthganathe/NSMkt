@@ -21,10 +21,13 @@
         #endregion
 
         #region Job Scheduler  
-        public async Task<bool> OCDetailAsync(List<string> scripts)
+        public async Task<List<OCIndexData>> OCDetailAsync(List<string> scripts,int neighbours, bool? nextmonth = false)
         {
-            var result = await _NSEOCService.GetOCDataAsyncFiltered(scripts);
-            return true;
+            var result = await _NSEOCService.GetOCDataAsyncFiltered(scripts, neighbours, nextmonth);
+            if(result!=null)
+            {
+            }
+            return null;
         }
         #endregion
     }

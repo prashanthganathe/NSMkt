@@ -2,7 +2,7 @@
 
 namespace NSMkt.Services.NSE
 {
-    public class NSEOCService:INSEOCService
+    public class NSEOCService : INSEOCService
     {
         public const string OCIndexUrl = "https://www.nseindia.com/api/option-chain-indices?symbol=#index";//NIFTY
 
@@ -14,65 +14,71 @@ namespace NSMkt.Services.NSE
             _mktService = mktService;
         }
 
-        
-        public async Task<List<OCIndexData>> GetOCDataAsyncFiltered(List<string> scripts,int neighbours,bool? nextmonth=false)
+
+        public async Task<List<OCIndexData>> GetOCDataAsyncFiltered(List<string> scripts, int neighbours, bool? nextmonth = false)
         {
-            try
-            {               
-                List<OCIndexData> resultset = new List<OCIndexData>();
-                foreach (var script in scripts)
-                {
-                    resultset.AddRange(await GetOCList(script,neighbours, nextmonth));
-                }
-                return null;
-            }
-            catch (Exception ex)
+            List<OCIndexData> resultSet = new List<OCIndexData>();
+            //foreach (var script in scripts)
+            Parallel.ForEach(scripts, async script =>
             {
-                return null;
+                try
+                {
+                    resultSet.AddRange(await GetOCFilteredDetails(script, neighbours, nextmonth));
+                }
+                catch (Exception ex)
+                {
+                }
             }
+            );
+            return resultSet;
+
+          
         }
 
-        public async Task<List<OCIndexData>> GetOCList(string script, int neighbours, bool? nextmonth)
+
+        public async Task<List<OCIndexData>> GetOCFilteredDetails(string script, int neighbours, bool? nextmonth = false)
         {
-            List<string> expiries = new List<string>();
             List<OCIndexData> result = new List<OCIndexData>();
-            try
+            var OCResponse = await GetOCDataAsync(script);
+            List<string> expiries = new List<string>();
+            if (script=="BANKNFITY" || script=="NIFTY")
             {
-                expiries.Add(_mktService.GetMonthlyExpiryText(_mktService.GetCurrentISTTime()));
+                expiries.Add(_mktService.GetWeeklyExpiryText(_mktService.GetCurrentISTTime()));
+            }
+            expiries.Add(_mktService.GetMonthlyExpiryText(_mktService.GetCurrentISTTime()));
+            if(nextmonth.Value)
+                expiries.Add(_mktService.GetMonthlyExpiryText(_mktService.GetCurrentISTTime().AddMonths(1)));
+            if (OCResponse!=null)
+            {
+                //expiry filter
+                result=OCResponse.Records.Data.Where(x => expiries.Contains(x.ExpiryDate)).ToList();
 
-                if (script=="BANKNFITY" || script=="NIFTY")
-                    expiries.Add(_mktService.GetWeeklyExpiryText(_mktService.GetCurrentISTTime()));
-                if (nextmonth==true)
-                    expiries.Add(_mktService.GetWeeklyExpiryText(_mktService.GetCurrentISTTime().AddDays(30)));
-
-                var OCResponse = await GetOCDataAsync(script, expiries, neighbours,nextmonth);
-                if (OCResponse!=null)
-                {
-                    result=OCResponse.Records.Data.Where(x => expiries.Contains(x.ExpiryDate)).ToList();
-                    return result;
+                //neighbour filter
+                if(result.Count>1 && neighbours>0)
+                {                   
+                    var splist = result.OrderByDescending(x => x.StrikePrice).Select(x=>x.StrikePrice).ToList();
+                    var iteration = splist[0]-splist[1];
+                    var atm = (Math.Round(Convert.ToDecimal(result[0].CE.UnderlyingValue )/ iteration, 0) * iteration);
+                    result= result.Where(x => x.StrikePrice>=(atm-10*(iteration/2)) && x.StrikePrice<=(atm+10*(iteration/2))).ToList();
                 }
-                return null;
+                return result;
             }
-            catch
-            {
-                return null;
-            }
+            return null;
         }
-
 
 
 
         #region APICalls
         public async Task<IndexOptionChainResponse> GetOCDataAsync(string script)
-        {           
+        {
             try
             {
                 var url = OCIndexUrl.Replace("#index", script);
-                var http = await _mktService.GetNSEHttpClient();                
+                var http = await _mktService.GetNSEHttpClient();
                 var dt = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
                 var weeklyexpiry = _mktService.GetWeeklyExpiryText(dt);
                 var monthlyexpiry = _mktService.GetMonthlyExpiryText(dt);
-                CancellationTokenSource cancellationToken = new CancellationTokenSource();             
+                CancellationTokenSource cancellationToken = new CancellationTokenSource();
                 using (var request = new HttpRequestMessage(HttpMethod.Get, url))
                 using (var response = await http.SendAsync(request, cancellationToken.Token))
                 {
@@ -82,7 +88,7 @@ namespace NSMkt.Services.NSE
                     resp = JsonConvert.DeserializeObject<IndexOptionChainResponse>(content);
                     return resp;
                 }
-                return null;       
+                return null;
             }
             catch (Exception ex)
             {

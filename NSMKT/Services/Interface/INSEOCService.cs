@@ -2,7 +2,7 @@
 {
     public interface INSEOCService
     {
-        Task<List<OCIndexData>> GetOCDataAsyncFiltered(string script, bool? nextmonth = false);
+        Task<List<OCIndexData>> GetOCDataAsyncFiltered(List<string> script,int neighbours, bool? nextmonth = false);
 
 
     }

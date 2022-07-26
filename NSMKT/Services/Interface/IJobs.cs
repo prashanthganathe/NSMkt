@@ -2,6 +2,6 @@
 {
     public interface IJobs
     {
-        Task<bool> OCDetailAsync(List<string> script);
+        Task<List<OCIndexData>> OCDetailAsync(List<string> scripts, int neighbours, bool? nextmonth = false);
     }
 }

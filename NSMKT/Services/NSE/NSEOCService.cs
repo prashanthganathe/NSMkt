@@ -30,15 +30,23 @@ namespace NSMkt.Services.NSE
             }
             );
             return resultSet;
-
-          
         }
 
+
+
+        public async Task StocksOC()
+        {
+            var stkOCs = await FAndOSecuritiesAPI();
+            if(stkOCs!=null)
+            {
+                //
+            }
+        }
 
         public async Task<List<OCIndexData>> GetOCFilteredDetails(string script, int neighbours, bool? nextmonth = false)
         {
             List<OCIndexData> result = new List<OCIndexData>();
-            var OCResponse = await GetOCDataAsync(script);
+            var OCResponse = await GetOCDataAsyncAPI(script);
             List<string> expiries = new List<string>();
             if (script=="BANKNFITY" || script=="NIFTY")
             {
@@ -68,7 +76,7 @@ namespace NSMkt.Services.NSE
 
 
         #region APICalls
-        public async Task<IndexOptionChainResponse> GetOCDataAsync(string script)
+        public async Task<IndexOptionChainResponse> GetOCDataAsyncAPI(string script)
         {
             try
             {
@@ -98,7 +106,7 @@ namespace NSMkt.Services.NSE
 
 
 
-        public async Task<List<OptionChainStockSummary>> FAndOSecurities()
+        public async Task<List<OptionChainStockSummary>> FAndOSecuritiesAPI()
         {
 
             try
@@ -106,13 +114,10 @@ namespace NSMkt.Services.NSE
                 var url = "https://www.nseindia.com/api/equity-stockIndices?index=SECURITIES%20IN%20F%26O";
                 if (_mktService.IsMarketTime())
                 {
-
-                    HttpClient http = await _mktService.GetNSEHttpClient();
-                    
+                    HttpClient http = await _mktService.GetNSEHttpClient();                    
                     List<OptionChainStockSummary> foList = new List<OptionChainStockSummary>();
-                    NSEFOModel resp = null;
-                    List<DataTop> topGainers = null;
-
+                    NSEFOModel resp = null;                 
+                    CancellationTokenSource cancellationToken = new CancellationTokenSource();
                     using (var request = new HttpRequestMessage(HttpMethod.Get, url))
                     using (var response = await http.SendAsync(request, cancellationToken.Token))
                     {
@@ -142,14 +147,15 @@ namespace NSMkt.Services.NSE
                             }
                             catch (Exception ex) { }
                         }
-
+                        var n50 = await Nifty50ListAPI();
+                        var n50Scripts = n50.SelectMany(x => x.Data.Select(x => x.Symbol.ToUpper())).ToList();
+                        foList.Where(y=>n50.Select(x=>x.Data.Select(x=>x.Symbol.ToUpper).ToList().Contains(y.script.ToUpper()))).ToList().fo
 
                         if (foList.Count > 0)
                         {
                             return foList;
                         }
                     }
-
                 }
                 return null;
 
@@ -160,6 +166,38 @@ namespace NSMkt.Services.NSE
             }
         }
 
+
+
+        public async Task<List<NSENifty50>> Nifty50ListAPI()
+        {
+
+            try
+            {
+                var url = "hhttps://www.nseindia.com/json/equity-stockIndices.json";
+                if (_mktService.IsMarketTime())
+                {
+                    HttpClient http = await _mktService.GetNSEHttpClient();
+                    List<OptionChainStockSummary> foList = new List<OptionChainStockSummary>();
+                    List<NSENifty50> resp = null;
+                    CancellationTokenSource cancellationToken = new CancellationTokenSource();
+                    using (var request = new HttpRequestMessage(HttpMethod.Get, url))
+                    using (var response = await http.SendAsync(request, cancellationToken.Token))
+                    {
+                        response.EnsureSuccessStatusCode();
+                        var content = await response.Content.ReadAsStringAsync();
+                        resp = JsonConvert.DeserializeObject<List<NSENifty50>>(content);
+                        return resp;
+                    }
+                   
+                }
+                return null;
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
         #endregion 
 
     }

@@ -29,6 +29,15 @@
             return null;
 
         }
+
+
+        public async Task<List<OCIndexData>> StocksOC()
+        {
+            var jobid = BackgroundJob.Enqueue<INSEOCService>(x => x.StocksOC());
+            BackgroundJob.ContinueJobWith(jobid, () => _emailService.SendEmail());
+            return null;
+
+        }
         #endregion
     }
 }

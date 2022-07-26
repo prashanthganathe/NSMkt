@@ -1,7 +1,7 @@
 ﻿using Hangfire;
 using Hangfire.Storage;
 
-namespace NSMkt.Services
+namespace NSMkt
 {
     public static class CookieClass
     {
@@ -22,14 +22,12 @@ namespace NSMkt.Services
             indexScript.Add("BANKNIFTY");
             indexScript.Add("NIFTY");
 
-            List<string> StockList = new List<string>();
-            //StockList=Get200StockInfo();
-            // var GetTop200Stks=
+    
             RecurringJob.AddOrUpdate<IGlobalVariableService>("SetCookieBG", x => x.SetNSECookie(), "0/5 * * * 1,2,3,4,5", INDIAN_ZONE);
-            RecurringJob.AddOrUpdate<IJobs>("IndexOC", x => x.OCDetailAsync(indexScript, 12,false), "0/3 9,10,11,12,13,14,15 * * 1,2,3,4,5", INDIAN_ZONE);
-            RecurringJob.AddOrUpdate<IJobs>("StocksOC", x => x.OCDetailAsync(StockList, 12, false), "0/6 9,10,11,12,13,14,15 * * 1,2,3,4,5", INDIAN_ZONE);
+            RecurringJob.AddOrUpdate<IJobs>("IndexOC", x => x.OCDetailAsync(indexScript, 12, false), "0/3 9,10,11,12,13,14,15 * * 1,2,3,4,5", INDIAN_ZONE);
+            RecurringJob.AddOrUpdate<IJobs>("StocksOC", x => x.StocksOC(), "0/6 9,10,11,12,13,14,15 * * 1,2,3,4,5", INDIAN_ZONE);
 
-            RecurringJob.AddOrUpdate<IJobs>("StockNotifications", x => x.(StockList, 12, false), "0/15 9,10,11,12,13,14,15 * * 1,2,3,4,5", INDIAN_ZONE);
+            //RecurringJob.AddOrUpdate<IJobs>("StockNotifications", x => x.(StockList, 12, false), "0/15 9,10,11,12,13,14,15 * * 1,2,3,4,5", INDIAN_ZONE);
         }
 
 
@@ -55,10 +53,9 @@ namespace NSMkt.Services
                     CookieContainer = cookieContainer
                 })
                 {
-                 
                     using (var httpClient = new HttpClient(httpClientHandler))
                     {
-                        System.Net.ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                        ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
                         httpClient.DefaultRequestHeaders.Add("Connection", "keep-alive");
                         httpClient.DefaultRequestHeaders.Add("Upgrade-Insecure-Requests", "1");
                         httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36");
@@ -135,7 +132,7 @@ namespace NSMkt.Services
 
                 using (var connection = JobStorage.Current.GetConnection())
                 {
-                    foreach (var recurringJob in StorageConnectionExtensions.GetRecurringJobs(connection))
+                    foreach (var recurringJob in connection.GetRecurringJobs())
                     {
                         RecurringJob.RemoveIfExists(recurringJob.Id);
                     }

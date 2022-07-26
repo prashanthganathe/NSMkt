@@ -6,6 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using NSMkt.Data;
 
+
+
+
+
 var builder = WebApplication.CreateBuilder(args);
                 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -30,7 +34,7 @@ builder.Services.AddHangfire(configuration => configuration
                 SlidingInvisibilityTimeout=TimeSpan.FromMinutes(5),
                 QueuePollInterval=TimeSpan.Zero,
                 DisableGlobalLocks=true
-            }));
+            }).WithJobExpirationTimeout(TimeSpan.FromDays(7)));
 builder.Services.AddHangfireServer();
 
 Log.Logger = new LoggerConfiguration().CreateBootstrapLogger();
@@ -111,6 +115,7 @@ builder.Services.AddScoped<INSEMarketService, NSEMarketService>();
 builder.Services.AddScoped<IGlobalVariableService, GlobalVariableService>();
 builder.Services.AddScoped<INSEOCService, NSEOCService>();
 builder.Services.AddScoped<ICommonService, CommonService>();
+builder.Services.AddScoped<IJobs, Jobs>();
 #endregion
 
 

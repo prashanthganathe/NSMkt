@@ -10,6 +10,10 @@ namespace NSMkt.Services.NSE
             
         }
 
+        public DateTime GetCurrentISTTime()
+        {            
+           return  TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
+        }
         public async Task<HttpClient> GetNSEHttpClient()
         {
            var httpclient= new HttpClient();

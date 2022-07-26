@@ -14,17 +14,15 @@ namespace NSMkt.Services.NSE
             _mktService = mktService;
         }
 
-        public async Task<List<OCIndexData>> GetOCDataAsyncFiltered(string script, string? expiry = null)
+        
+        public async Task<List<OCIndexData>> GetOCDataAsyncFiltered(List<string> scripts,int neighbours,bool? nextmonth=false)
         {
             try
-            {
-                var OCResponse = await GetOCDataAsync(script);
-                if (OCResponse!=null)
+            {               
+                List<OCIndexData> resultset = new List<OCIndexData>();
+                foreach (var script in scripts)
                 {
-                    List<OCIndexData> result = new List<OCIndexData>();
-                    if (expiry!=null)
-                        result=OCResponse.Records.Data.Where(x => x.ExpiryDate==expiry).ToList();
-                    return result;
+                    resultset.AddRange(await GetOCList(script,neighbours, nextmonth));
                 }
                 return null;
             }
@@ -33,6 +31,36 @@ namespace NSMkt.Services.NSE
                 return null;
             }
         }
+
+        public async Task<List<OCIndexData>> GetOCList(string script, int neighbours, bool? nextmonth)
+        {
+            List<string> expiries = new List<string>();
+            List<OCIndexData> result = new List<OCIndexData>();
+            try
+            {
+                expiries.Add(_mktService.GetMonthlyExpiryText(_mktService.GetCurrentISTTime()));
+
+                if (script=="BANKNFITY" || script=="NIFTY")
+                    expiries.Add(_mktService.GetWeeklyExpiryText(_mktService.GetCurrentISTTime()));
+                if (nextmonth==true)
+                    expiries.Add(_mktService.GetWeeklyExpiryText(_mktService.GetCurrentISTTime().AddDays(30)));
+
+                var OCResponse = await GetOCDataAsync(script, expiries, neighbours,nextmonth);
+                if (OCResponse!=null)
+                {
+                    result=OCResponse.Records.Data.Where(x => expiries.Contains(x.ExpiryDate)).ToList();
+                    return result;
+                }
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+
+
 
         #region APICalls
         public async Task<IndexOptionChainResponse> GetOCDataAsync(string script)

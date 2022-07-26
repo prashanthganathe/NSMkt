@@ -17,8 +17,7 @@ namespace NSMkt.Services.NSE
 
         public async Task<List<OCIndexData>> GetOCDataAsyncFiltered(List<string> scripts, int neighbours, bool? nextmonth = false)
         {
-            List<OCIndexData> resultSet = new List<OCIndexData>();
-            //foreach (var script in scripts)
+            List<OCIndexData> resultSet = new List<OCIndexData>();           
             Parallel.ForEach(scripts, async script =>
             {
                 try
@@ -89,6 +88,71 @@ namespace NSMkt.Services.NSE
                     return resp;
                 }
                 return null;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
+
+
+        public async Task<List<OptionChainStockSummary>> FAndOSecurities()
+        {
+
+            try
+            {
+                var url = "https://www.nseindia.com/api/equity-stockIndices?index=SECURITIES%20IN%20F%26O";
+                if (_mktService.IsMarketTime())
+                {
+
+                    HttpClient http = await _mktService.GetNSEHttpClient();
+                    
+                    List<OptionChainStockSummary> foList = new List<OptionChainStockSummary>();
+                    NSEFOModel resp = null;
+                    List<DataTop> topGainers = null;
+
+                    using (var request = new HttpRequestMessage(HttpMethod.Get, url))
+                    using (var response = await http.SendAsync(request, cancellationToken.Token))
+                    {
+                        response.EnsureSuccessStatusCode();
+                        var content = await response.Content.ReadAsStringAsync();
+                        resp = JsonConvert.DeserializeObject<NSEFOModel>(content);
+                    }
+                    if (resp != null)
+                    {
+                        OptionChainStockSummary temp = null;
+                        foreach (var stk in resp.Data)
+                        {
+                            try
+                            {
+                                temp = new OptionChainStockSummary();
+                                temp.script = stk.Symbol;
+                                temp.expiry = _mktService.GetMonthlyExpiryText(DateTime.Now);
+                                temp.ltp = Convert.ToDecimal(stk.LastPrice);
+                                temp.High = Convert.ToDecimal(stk.DayHigh);
+                                temp.Low = Convert.ToDecimal(stk.DayLow);
+                                temp.Open = Convert.ToDecimal(stk.Open);
+                                temp.yearHigh = Convert.ToDecimal(stk.YearHigh);
+                                temp.yearLow = Convert.ToDecimal(stk.YearLow);
+                                temp.prevClose = Convert.ToDecimal(stk.PreviousClose);
+                                temp.TurnOver = Math.Round(Convert.ToDecimal(stk.TotalTradedValue) / 10000000, 0);
+                                foList.Add(temp);
+                            }
+                            catch (Exception ex) { }
+                        }
+
+
+                        if (foList.Count > 0)
+                        {
+                            return foList;
+                        }
+                    }
+
+                }
+                return null;
+
             }
             catch (Exception ex)
             {

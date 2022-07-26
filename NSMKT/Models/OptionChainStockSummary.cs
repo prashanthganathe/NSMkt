@@ -8,9 +8,18 @@
         public string expiry { get; set; }
         public string expiryType { get; set; }
 
-        public decimal openPrice { get; set; }
-        public decimal highPrice { get; set; }
-        public decimal lowPrice { get; set; }
+        public decimal Open { get; set; }
+        public decimal High { get; set; }
+        public decimal Low { get; set; }
+        public decimal ltp { get; set; }
+
+
+        public decimal yearHigh { get; set; }
+        public decimal yearLow { get; set; }
+        public decimal prevClose { get; set; }
+        public decimal TurnOver { get; set; }
+        public bool IsTop50 { get; set; } = false;
+
 
         public bool isSpot { get; set; } = false;
         public string strike_reflabel { get; set; }
@@ -68,7 +77,10 @@
 
 
         public string SummaryJson { get; set; }
-        //
+        //Entry,Target,LTP
+        //S,S1,R,R1
+        //CC/PC
+        //Top50
 
 
     }

@@ -14,6 +14,38 @@ namespace NSMkt.Services.NSE
         {            
            return  TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
         }
+
+        public bool IsMarketTime(bool treatmarketTime = false)
+        {
+          
+            DateTime indianTime = GetCurrentISTTime(); 
+
+            if (!IsHoliday(indianTime))
+                return true;
+            if (IsMarketDay())
+            {
+                Console.WriteLine("IsMarketDay=true..............");
+                var from = indianTime.Date.Add(new TimeSpan(9, 6, 0));
+                var to = indianTime.Date.Add(new TimeSpan(15, 36, 0));
+                if (indianTime > from && indianTime < to)
+                {
+                    Console.WriteLine("MktHrs=true..............");
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("MktHrs=false..............");
+                    return false;
+                }
+            }
+            else
+            {
+                Console.WriteLine("IsMarketDay=false..............");
+                return false;
+            }
+        }
+
+
         public async Task<HttpClient> GetNSEHttpClient()
         {
            var httpclient= new HttpClient();

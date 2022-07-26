@@ -22,13 +22,14 @@ namespace NSMkt.Services
             indexScript.Add("BANKNIFTY");
             indexScript.Add("NIFTY");
 
-           // var GetTop200Stks=
+            List<string> StockList = new List<string>();
+            //StockList=Get200StockInfo();
+            // var GetTop200Stks=
             RecurringJob.AddOrUpdate<IGlobalVariableService>("SetCookieBG", x => x.SetNSECookie(), "0/5 * * * 1,2,3,4,5", INDIAN_ZONE);
-            RecurringJob.AddOrUpdate<IJobs>("Index09", x => x.OCDetailAsync(indexScript, 12,false), "0/3 9,10,11,12,13,14,15 * * 1,2,3,4,5", INDIAN_ZONE);
+            RecurringJob.AddOrUpdate<IJobs>("IndexOC", x => x.OCDetailAsync(indexScript, 12,false), "0/3 9,10,11,12,13,14,15 * * 1,2,3,4,5", INDIAN_ZONE);
+            RecurringJob.AddOrUpdate<IJobs>("StocksOC", x => x.OCDetailAsync(StockList, 12, false), "0/6 9,10,11,12,13,14,15 * * 1,2,3,4,5", INDIAN_ZONE);
 
-
-            //RecurringJob.AddOrUpdate<IOptimizedOCService>("IndexNight", x => x.SaveOptionChainIndexAsync(indexScript, IndexOCNeighbours), "0/45 3,8 * * 1,2,3,4,5", INDIAN_ZONE);
-
+            RecurringJob.AddOrUpdate<IJobs>("StockNotifications", x => x.OCDetailAsync(StockList, 12, false), "0/15 9,10,11,12,13,14,15 * * 1,2,3,4,5", INDIAN_ZONE);
         }
 
 

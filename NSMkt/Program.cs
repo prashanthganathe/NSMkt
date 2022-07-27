@@ -116,7 +116,11 @@ builder.Services.AddScoped<IGlobalVariableService, GlobalVariableService>();
 builder.Services.AddScoped<INSEOCService, NSEOCService>();
 builder.Services.AddScoped<ICommonService, CommonService>();
 builder.Services.AddScoped<IJobs, Jobs>();
+
+builder.Services.AddScoped<INSEAPI, NSEAPI>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IEmailTemplates, EmailTemplates>();
+
 #endregion
 
 

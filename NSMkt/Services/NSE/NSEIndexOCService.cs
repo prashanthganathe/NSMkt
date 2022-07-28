@@ -2,19 +2,33 @@
 
 namespace NSMkt.Services.NSE
 {
-    public class NSEOCService : INSEOCService
+    public class NSEIndexOCService : INSEIndexOCService
     {
        
 
         private readonly ApplicationDbContext _cnxt;
         private readonly INSEMarketService _mktService;
         private readonly INSEAPI _nseAPI;
-        public NSEOCService(ApplicationDbContext cnxt, INSEMarketService mktService, INSEAPI nseAPI)
+        public NSEIndexOCService(ApplicationDbContext cnxt, INSEMarketService mktService, INSEAPI nseAPI)
         {
             _cnxt = cnxt;
             _mktService = mktService;
             _nseAPI = nseAPI;
         }
+
+       public async Task<string> GetIndexBodyHTML()
+        {
+            return "";
+        }
+        public async Task<string> GetIndexSubject()
+        {
+            return "";
+        }
+
+
+
+
+
 
 
         public async Task<List<OCIndexData>> GetOCIndexDataAsyncFiltered(List<string> scripts, int neighbours, bool? nextmonth = false)
@@ -31,18 +45,12 @@ namespace NSMkt.Services.NSE
                 }
             }
             );
+
+            return resultSet;
         }
 
 
 
-        public async Task StocksOC()
-        {
-            var stkOCs = await _nseAPI.FAndOSecuritiesAPI();
-            if(stkOCs!=null)
-            {
-                //
-            }
-        }
 
         public async Task<List<OCIndexData>> GetOCIndexFilteredDetails(string script, int neighbours, bool? nextmonth = false)
         {

@@ -16,6 +16,8 @@
 
 
         #region APICalls
+
+        #region Index
         public async Task<IndexOptionChainResponse> GetIndexOCDataAsyncAPI(string script)
         {
             try
@@ -45,6 +47,51 @@
 
 
 
+
+ 
+
+
+
+        public async Task<List<NSENifty50>> Nifty50ListAPI()
+        {
+            try
+            {
+                var url = "hhttps://www.nseindia.com/json/equity-stockIndices.json";
+                if (_mktService.IsMarketTime())
+                {
+                    HttpClient http = await _mktService.GetNSEHttpClient();
+                    List<OptionChainStockSummary> foList = new List<OptionChainStockSummary>();
+                    List<NSENifty50> resp = null;
+                    CancellationTokenSource cancellationToken = new CancellationTokenSource();
+                    using (var request = new HttpRequestMessage(HttpMethod.Get, url))
+                    using (var response = await http.SendAsync(request, cancellationToken.Token))
+                    {
+                        response.EnsureSuccessStatusCode();
+                        var content = await response.Content.ReadAsStringAsync();
+                        resp = JsonConvert.DeserializeObject<List<NSENifty50>>(content);
+                        return resp;
+                    }
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        #endregion
+
+
+        #region Stocks
+
+        public async Task StocksOC()
+        {
+            var stkOCs = await FAndOSecuritiesAPI();
+            if (stkOCs != null)
+            {
+                //
+            }
+        }
 
         public async Task<List<OptionChainStockSummary>> FAndOSecuritiesAPI()
         {
@@ -107,33 +154,9 @@
 
 
 
-        public async Task<List<NSENifty50>> Nifty50ListAPI()
-        {
-            try
-            {
-                var url = "hhttps://www.nseindia.com/json/equity-stockIndices.json";
-                if (_mktService.IsMarketTime())
-                {
-                    HttpClient http = await _mktService.GetNSEHttpClient();
-                    List<OptionChainStockSummary> foList = new List<OptionChainStockSummary>();
-                    List<NSENifty50> resp = null;
-                    CancellationTokenSource cancellationToken = new CancellationTokenSource();
-                    using (var request = new HttpRequestMessage(HttpMethod.Get, url))
-                    using (var response = await http.SendAsync(request, cancellationToken.Token))
-                    {
-                        response.EnsureSuccessStatusCode();
-                        var content = await response.Content.ReadAsStringAsync();
-                        resp = JsonConvert.DeserializeObject<List<NSENifty50>>(content);
-                        return resp;
-                    }
-                }
-                return null;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-        #endregion 
+        #endregion
+
+
+        #endregion
     }
 }

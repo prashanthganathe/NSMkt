@@ -2,8 +2,15 @@
 {
     public interface INSEAPI
     {
+        #region Index
         Task<IndexOptionChainResponse> GetIndexOCDataAsyncAPI(string script);
-        Task<List<OptionChainStockSummary>> FAndOSecuritiesAPI();
+       
         Task<List<NSENifty50>> Nifty50ListAPI();
+        #endregion
+
+        #region Stocks
+        Task StocksOC();
+        Task<List<OptionChainStockSummary>> FAndOSecuritiesAPI();
+        #endregion
     }
 }

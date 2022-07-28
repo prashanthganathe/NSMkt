@@ -9,16 +9,16 @@
     public class Jobs:IJobs
     {
         #region Property  
-        private readonly INSEOCService _NSEOCService;
+        private readonly INSEIndexOCService _nseOCService;
         private readonly IEmailService _emailService;
         private readonly IConfiguration _config;
         #endregion
 
         #region Constructor  
-        public Jobs(IConfiguration config,INSEOCService NSEOCService, IEmailService  emailService)
+        public Jobs(IConfiguration config,INSEIndexOCService nseOCService, IEmailService  emailService)
         {
             _config = config;
-            _NSEOCService = NSEOCService;
+            _nseOCService = nseOCService;
             _emailService=emailService;
         }
         #endregion
@@ -26,8 +26,12 @@
         #region Job Scheduler  
         public async Task<List<OCIndexData>> OCIndexAsync(List<string> scripts,int neighbours, bool? nextmonth = false)
         {
-            var jobid = BackgroundJob.Enqueue<INSEOCService>(x => x.GetOCIndexDataAsyncFiltered(scripts, neighbours, nextmonth));
-            BackgroundJob.ContinueJobWith(jobid, () => _emailService.SendEmail_IndexOC("Index","", _config.GetSection("EmailList").GetSection("IndexEmails").Value));
+            var jobid = BackgroundJob.Enqueue<INSEIndexOCService>(x => x.GetOCIndexDataAsyncFiltered(scripts, neighbours, nextmonth));
+          
+            var emailSection = _config.GetSection("EmailList");
+            var indexMsgBody = await _nseOCService.GetIndexBodyHTML();
+            var indexSubject =await _nseOCService.GetIndexSubject();
+            BackgroundJob.ContinueJobWith(jobid, () => _emailService.SendEmail(indexSubject, indexMsgBody, emailSection.GetSection("PremiumEmails").Value, emailSection.GetSection("").Value,emailSection.GetSection("IndexEmails").Value));
             return null;
 
         }

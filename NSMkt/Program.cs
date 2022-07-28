@@ -113,13 +113,14 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<INSEMarketService, NSEMarketService>();
 builder.Services.AddScoped<IGlobalVariableService, GlobalVariableService>();
-builder.Services.AddScoped<INSEOCService, NSEOCService>();
+builder.Services.AddScoped<INSEIndexOCService, NSEIndexOCService>();
 builder.Services.AddScoped<ICommonService, CommonService>();
 builder.Services.AddScoped<IJobs, Jobs>();
 
 builder.Services.AddScoped<INSEAPI, NSEAPI>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IEmailTemplates, EmailTemplates>();
+builder.Services.AddScoped<INSEStockOCService, NSEStockOCService>(); 
 
 #endregion
 

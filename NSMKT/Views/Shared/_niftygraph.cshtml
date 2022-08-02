@@ -1,5 +1,7 @@
-﻿    <!-- Area Chart -->
+﻿  <!-- Area Chart -->
 
+
+@*  https://stackoverflow.com/questions/67636475/apexcharts-update-2-lines-chart-data-json-api-ajax*@
 <style>
     #chart {
   max-width: 650px;
@@ -34,7 +36,7 @@
     </div>
 </div>
 
-
+@*  
 <script type="text/javascript">
 
 var options = {
@@ -130,7 +132,7 @@ chart.render();
 
 
 //chart.updateSeries([{name: 'Speed', data: [[0.0,61.8],[38.4,61.2],[76.8,60.5],[115.2,59.9],[153.6,59.3],[192.0,58.6]]}]);
-    //var url = 'https://localhost:44389/api/Sample/LineChartData?bnfchart=adfsd';
+    //var url = 'https://localhost:7270/api/Sample/LineChartData?bnfchart=adfsd';
 
     //$.getJSON(url, function(response) {  
     //  chart.updateSeries([{
@@ -142,4 +144,104 @@ chart.render();
 
 
   
+</script>*@
+
+<script>
+var options = {
+  series: [],
+    colors: ["#FF1654", "#247BA0"],
+  chart: {
+    height: 350,
+    type: 'line',
+  },
+  dataLabels: {
+    enabled: true
+  },
+  title: {
+    text: 'Production Line',
+  },
+  noData: {
+    text: 'Loading...'
+  },
+  xaxis: {
+    type: 'category',
+    tickPlacement: 'on',
+    labels: {
+      rotate: -45,
+      rotateAlways: true
+    }
+  }
+};
+var chart = new ApexCharts(document.querySelector("#niftychart"), options);
+chart.render();
+//var controllerUrl = "this.Url.Action(actionName: "LineChartProductionHour", controllerName: "LineChart")";
+$.getJSON({ url: "https://localhost:7270/api/Sample/LineChartData?bnfchart=adfsd" }, function(data2) {
+
+    //suppose this is return..from ajax
+    //var data2 = {
+    //  "data2": [{
+    //    "Hour": "07:00-08:00",
+    //    "Produced": 80,
+    //    "Target": 120
+    //  }, {
+    //    "Hour": "08:00-09:00",
+    //    "Produced": 90,
+    //    "Target": 120
+    //  }, {
+    //    "Hour": "09:00:10:00",
+    //    "Produced": 85,
+    //    "Target": 90
+    //  }, {
+    //    "Hour": "10:00-11:00",
+    //    "Produced": 22,
+    //    "Target": 120
+    //  }, {
+    //    "Hour": "11:00:12:00",
+    //    "Produced": 80,
+    //    "Target": 70
+    //  }, {
+    //    "Hour": "12:00:13:00",
+    //    "Produced": 65,
+    //    "Target": 50
+    //  }, {
+    //    "Hour": "13:00:14:00",
+    //    "Produced": 80,
+    //    "Target": 120
+    //  }, {
+    //    "Hour": "14:00:15:00",
+    //    "Produced": 130,
+    //    "Target": 100
+    //  }]
+    //}
+    a_data = data2;
+    var price = []
+    var coi = []
+    //loop through return data 
+    $(a_data.data).each(function(i, v) {
+        //push values as x & y
+        price.push({
+            "x": v.dt,
+            "y": v.price
+        })
+        coi.push({
+            "x": v.dt,
+            "y": v.coi
+        })
+    })
+    chart.updateSeries([{
+        name: 'Price',
+        data: price //pass them here 
+    }
+    //,    
+    //{
+    //    name: 'COI',
+    //    data: coi //pass them here
+    //}
+    
+    ]);
+
+});
+
 </script>
+
+

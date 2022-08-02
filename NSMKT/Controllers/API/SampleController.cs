@@ -16,9 +16,11 @@ namespace NSMkt.Controllers.API
         {
             var ret = new LineSample();
             ret.Data= new List<SampleLine>();
+            var dt = DateTime.Now.AddMinutes(1);
             for (int i = 0; i<10; i++)
             {
-                ret.Data.Add(new SampleLine {  x=1900+i,  y= i});
+                dt= dt.AddMinutes(1);
+                ret.Data.Add(new SampleLine { dt= dt.ToString("hh:mm"), price=1900+i,  coi= 1000*(new Random().Next(1,10))});
             }
             return JsonConvert.SerializeObject(ret);
         }

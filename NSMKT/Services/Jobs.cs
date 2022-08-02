@@ -27,7 +27,7 @@
         public async Task<List<OCIndexData>> OCIndexAsync(List<string> scripts,int neighbours, bool? nextmonth = false)
         {
             var jobid = BackgroundJob.Enqueue<INSEOCService>(x => x.GetOCIndexDataAsyncFiltered(scripts, neighbours, nextmonth));
-            BackgroundJob.ContinueJobWith(jobid, () => _emailService.SendEmail_IndexOC("Index","", _config.GetSection("EmailList").GetSection("IndexEmails").Value));
+            //BackgroundJob.ContinueJobWith(jobid, () => _emailService.SendEmail_IndexOC("Index","", _config.GetSection("EmailList").GetSection("IndexEmails").Value));
             return null;
 
         }

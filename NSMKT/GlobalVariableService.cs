@@ -23,9 +23,9 @@ namespace NSMkt
             indexScript.Add("NIFTY");
 
     
-            RecurringJob.AddOrUpdate<IGlobalVariableService>("SetCookieBG", x => x.SetNSECookie(), "0/5 * * * 1,2,3,4,5", INDIAN_ZONE);
-            RecurringJob.AddOrUpdate<IJobs>("OCIndex", x => x.OCIndexAsync(indexScript, 12, false), "0/3 9,10,11,12,13,14,15 * * 1,2,3,4,5", INDIAN_ZONE);
-            RecurringJob.AddOrUpdate<IJobs>("OCStock", x => x.OCStockAsync(), "0/6 9,10,11,12,13,14,15 * * 1,2,3,4,5", INDIAN_ZONE);
+            //RecurringJob.AddOrUpdate<IGlobalVariableService>("SetCookieBG", x => x.SetNSECookie(), "0/5 * * * 1,2,3,4,5", INDIAN_ZONE);
+            //RecurringJob.AddOrUpdate<IJobs>("OCIndex", x => x.OCIndexAsync(indexScript, 12, false), "0/3 9,10,11,12,13,14,15 * * 1,2,3,4,5", INDIAN_ZONE);
+            //RecurringJob.AddOrUpdate<IJobs>("OCStock", x => x.OCStockAsync(), "0/6 9,10,11,12,13,14,15 * * 1,2,3,4,5", INDIAN_ZONE);
             
         }
 

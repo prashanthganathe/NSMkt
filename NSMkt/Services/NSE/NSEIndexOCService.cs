@@ -82,7 +82,7 @@ namespace NSMkt.Services.NSE
                 {                   
                     var splist = result.OrderByDescending(x => x.StrikePrice).Select(x=>x.StrikePrice).ToList();
                     var iteration = splist[0]-splist[1];
-                    var atm = (Math.Round(Convert.ToDecimal(result[0].CE.UnderlyingValue )/ iteration, 0) * iteration);
+                    var atm = (Math.Round(Convert.ToDecimal(result.Where(x=>x.CE!=null).FirstOrDefault().CE.UnderlyingValue )/ iteration, 0) * iteration);
                     result= result.Where(x => x.StrikePrice>=(atm-10*(iteration/2)) && x.StrikePrice<=(atm+10*(iteration/2))).ToList();
                 }
                 return result;

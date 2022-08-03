@@ -33,18 +33,26 @@ namespace NSMkt.Services.NSE
 
         public async Task<List<OCIndexData>> GetOCIndexDataAsyncFiltered(List<string> scripts, int neighbours, bool? nextmonth = false)
         {
-            List<OCIndexData> resultSet = new List<OCIndexData>();           
-            Parallel.ForEach(scripts, async script =>
+            List<OCIndexData> resultSet = new List<OCIndexData>();
+            try
             {
-                try
+                Parallel.ForEach(scripts, async script =>
                 {
-                    resultSet.AddRange(await GetOCIndexFilteredDetails(script, neighbours, nextmonth));                   
+                    try
+                    {
+                        resultSet.AddRange(await GetOCIndexFilteredDetails(script, neighbours, nextmonth));
+                    }
+                    catch (Exception ex)
+                    {
+                    }
                 }
-                catch (Exception ex)
-                {
-                }
+                );
+                return resultSet;
             }
-            );
+            catch(Exception ex)
+            {
+                return null;
+            }
 
             return resultSet;
         }

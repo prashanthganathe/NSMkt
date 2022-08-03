@@ -3,11 +3,14 @@
 
     public class SampleLine
     {
-        [JsonProperty("x")]
-        public int x;
+        [JsonProperty("price")]
+        public decimal price;
 
-        [JsonProperty("y")]
-        public int y;
+        [JsonProperty("coi")]
+        public decimal coi;
+
+        [JsonProperty("dt")]
+        public string dt;
     }
 
     public class LineSample

@@ -1,0 +1,107 @@
+<html>
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.26.3/apexcharts.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+
+<div id="chart"></div>
+
+
+
+<script>
+
+var options = {
+  series: [],
+  chart: {
+    height: 350,
+    type: 'line',
+  },
+  dataLabels: {
+    enabled: true
+  },
+  title: {
+    text: 'Production Line',
+  },
+  noData: {
+    text: 'Loading...'
+  },
+  xaxis: {
+    type: 'category',
+    tickPlacement: 'on',
+    labels: {
+      rotate: -45,
+      rotateAlways: true
+    }
+  }
+};
+var chart = new ApexCharts(document.querySelector("#chart"), options);
+chart.render();
+/*var controllerUrl = "@this.Url.Action(actionName: "LineChartProductionHour", controllerName: "LineChart")";
+  $.getJSON({ url: controllerUrl }, function (data2) {*/
+//suppose this is return..from ajax
+var data2 = {
+  "data2": [{
+    "Hour": "07:00-08:00",
+    "Produced": 80,
+    "Target": 120
+  }, {
+    "Hour": "08:00-09:00",
+    "Produced": 90,
+    "Target": 120
+  }, {
+    "Hour": "09:00:10:00",
+    "Produced": 85,
+    "Target": 90
+  }, {
+    "Hour": "10:00-11:00",
+    "Produced": 22,
+    "Target": 120
+  }, {
+    "Hour": "11:00:12:00",
+    "Produced": 80,
+    "Target": 70
+  }, {
+    "Hour": "12:00:13:00",
+    "Produced": 65,
+    "Target": 50
+  }, {
+    "Hour": "13:00:14:00",
+    "Produced": 80,
+    "Target": 120
+  }, {
+    "Hour": "14:00:15:00",
+    "Produced": 130,
+    "Target": 100
+  }]
+}
+a_data = data2;
+var produce = []
+var target = []
+//loop through return data 
+$(a_data.data2).each(function(i, v) {
+  //push values as x & y
+  produce.push({
+    "x": v.Hour,
+    "y": v.Produced
+  })
+  target.push({
+    "x": v.Hour,
+    "y": v.Target
+  })
+})
+chart.updateSeries([{
+  name: 'Produced',
+  data: produce //pass them here 
+}, {
+  name: 'Target',
+  data: target //pass them here
+}])
+
+/*})*/
+</script>
+
+</body>
+</html>
